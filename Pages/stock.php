@@ -4,7 +4,7 @@
   </head>
   <body>
 
-    <!-- Navbar files -->
+    <!-- Navbar -->
     <?php include "../Modules/navbar.php" ?>
 
     <!-- Table -->
@@ -33,5 +33,5 @@
   </body>
 </html>
 
-<!-- Bootstrap files -->
+<!-- Bootstrap links -->
 <?php include "../Modules/bootstrap.php" ?>

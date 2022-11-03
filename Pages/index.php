@@ -4,11 +4,11 @@
   </head>
   <body>
 
-    <!-- Navbar files -->
+    <!-- Navbar -->
     <?php include "../Modules/navbar.php" ?>
 
   </body>
 </html>
 
-<!-- Bootstrap files -->
+<!-- Bootstrap links -->
 <?php include "../Modules/bootstrap.php" ?>
