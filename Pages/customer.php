@@ -37,5 +37,5 @@
   </body>
 </html>
 
-<!-- Bootstrap links -->
+<!-- Links and Scripts -->
 <?php include "../Modules/linksandscripts.php" ?>
