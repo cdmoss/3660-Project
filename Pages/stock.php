@@ -4,9 +4,10 @@
   </head>
   <body>
 
-    <!-- Navbar -->
-    <?php include "../Modules/navbar.php" ?>
+    <!-- Sidebar -->
+    <?php include "../Modules/sidebar.php" ?>
 
+    <div class="container-fluid">
     <!-- Table -->
     <table class="table mt-5">
     <thead class="thead-dark">
@@ -29,9 +30,10 @@
       </tr>
     </tbody>
     </table>
+    </div>
 
   </body>
 </html>
 
 <!-- Bootstrap links -->
-<?php include "../Modules/bootstrap.php" ?>
+<?php include "../Modules/linksandscripts.php" ?>
