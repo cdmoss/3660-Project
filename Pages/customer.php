@@ -1,4 +1,4 @@
-<?php include "../Modules/db.php" ?> 
+<?php include "../Modules/dbtest.php" ?> 
 
 <!doctype html>
 <html lang="en">
