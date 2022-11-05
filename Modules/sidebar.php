@@ -7,11 +7,13 @@
 
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.php">
-                <div class="sidebar-brand-text mx-3">GROUP <sup>2</sup> COMPUTER REPAIR</div>
+                <div class="sidebar-brand-icon" style="margin-top: 50px;">
+                    <img src="../images/logowhite.png" width="250" height="250">
+                </div>
             </a>
 
             <!-- Divider -->
-            <hr class="sidebar-divider my-0">
+            <hr class="sidebar-divider mt-5 my-0">
 
             <!-- Nav Item - Home -->
             <li class="nav-item <?= $page == 'index.php' ? 'active' : '' ?>"><a class="nav-link" href="index.php"><i class="fa-solid fa-house"></i><span class="ml-1">Home</span></a></li>
