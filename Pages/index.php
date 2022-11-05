@@ -10,5 +10,4 @@
   </body>
 </html>
 
-<!-- Links and Scripts -->
 <?php include "../Modules/linksandscripts.php" ?>
