@@ -1,3 +1,5 @@
+<?php include "../Modules/db.php" ?> 
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -11,7 +13,8 @@
       <!-- Table -->
       <table class="table mt-5">
       <thead class="thead-dark">
-        <tr> 
+        <tr>
+          <th>ID</th>
           <th>Name</th>
           <th>Email</th>
           <th>Phone</th>
@@ -20,16 +23,12 @@
         </tr>
       </thead>
       <tbody>
-        <!-- Data and Actions (View/Edit/Delete) -->
-        <tr>
-          <td>John</td>
-          <td>doe@hotmail.com</td>
-          <td>4038765847</td>
-          <td>31 Baker Lane</td>
-          <td><button type="button" class="btn btn-primary">View</button>
-          <button type="button" class="btn btn-secondary">Edit</button>
-          <button type="button" class="btn btn-danger">Delete</button></td>
-        </tr>
+        <?php
+          $stmt = $pdo->query('SELECT id, name, email, phone, address FROM CUSTOMERS');
+          while ($row = $stmt->fetch()) {
+            echo "<tr><td>" . $row['id'] . "</td><td>" . $row['name'] . "</td><td>" . $row['email'] . "</td><td>" . $row['phone'] . "</td><td>" . $row['address'] . "</td><td><button type='button' class='btn btn-primary'>View</button><button type='button' class='btn btn-secondary'>Edit</button><button type='button' class='btn btn-danger'>Delete</button></td></tr>";
+          }
+        ?>
       </tbody>
       </table>
     </div>

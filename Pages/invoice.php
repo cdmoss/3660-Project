@@ -12,6 +12,7 @@
     <table class="table mt-5">
     <thead class="thead-dark">
       <tr> 
+        <th>ID</th>
         <th>Label</th>
         <th>Date</th>
         <th>Created</th>
@@ -21,6 +22,7 @@
     <tbody>
       <!-- Data and Actions (View/Edit/Delete) -->
       <tr>
+        <td>1</td> 
         <td>Example data</td>
         <td>11/03/22</td>
         <td>Example data</td>

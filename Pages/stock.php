@@ -11,7 +11,8 @@
     <!-- Table -->
     <table class="table mt-5">
     <thead class="thead-dark">
-      <tr> 
+      <tr>
+        <th>ID</th> 
         <th>Name</th>
         <th>Current Price</th>
         <th>Quantity</th>
@@ -21,6 +22,7 @@
     <tbody>
       <!-- Data and Actions (View/Edit/Delete) -->
       <tr>
+        <td>1</td>
         <td>Weedwacker</td>
         <td>$50.00</td>
         <td>20</td>
