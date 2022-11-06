@@ -6,23 +6,17 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark" id="Sidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.php">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="customer.php">
                 <div class="sidebar-brand-icon" style="margin-top: 50px;">
-                    <img src="../images/logowhite.png" width="250" height="250">
+                    <img src="../images/logowhite.png" width="200" height="200">
                 </div>
             </a>
 
             <!-- Divider -->
             <hr class="sidebar-divider mt-5 my-0">
 
-            <!-- Nav Item - Home -->
-            <li class="nav-item <?= $page == 'index.php' ? 'active' : '' ?>"><a class="nav-link" href="index.php"><i class="fa-solid fa-house"></i><span class="ml-1">Home</span></a></li>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider">
-
             <!-- Heading -->
-            <div class="sidebar-heading">
+            <div class="sidebar-heading mt-2 my-0">
                 Pages
             </div>
 
@@ -50,6 +44,7 @@
               <?= $page == 'customer.php' ? "<b>Customer Information</b>" : '' ?>
               <?= $page == 'stock.php' ? "<b>Stock Items</b>" : '' ?>
               <?= $page == 'invoice.php' ? "<b>Invoices</b>" : '' ?>
+              <?= $page == 'customerbyid.php' ? "<b>Customer</b>" : '' ?>
             </nav>
             <!-- End of Topbar -->
             
