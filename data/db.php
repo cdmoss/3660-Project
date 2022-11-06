@@ -1,21 +1,40 @@
-<?php include "../models/customer.php" ?> 
-<?php include "../models/invoice.php" ?> 
-<?php include "../models/stock.php" ?> 
-<?php include "../models/line-item.php" ?> 
-<?php include "../models/query-result.php" ?> 
+ <?php include "models/query-result.php" ?> 
+ <?php include "../Modules/logging.php" ?> 
 
 <?php
+    define("SERVER_ERROR_MSG", "A server error occured. Reload the page and try again, or contact the administrator of this site.");
+
+    enum TABLE: string {
+        case CUSTOMERS = 'customers';
+        case STOCK = 'stock';
+        case INVOICES = 'invoices';
+        case LINE_ITEMS = 'lineitems';
+    }
+
+    function validTable($table) {
+        return TABLE::tryFrom($table) != null;
+    }
+
+    function validEmail($email) {
+        return preg_match('/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/', $email) == 1;
+    }
+
+    function validPhone($phone) {
+        return preg_match('^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$', $phone) == 1;
+    }
+
     class Db {
     // connection object
+    private static $instance = null;
     private $pdo;
 
     // error array
-    private $errors;
+    private $errors = array();
 
-    // constructor creates new connection and stores it locally in $pdo
+    // constructor creates new connection and stores it locally in $this->pdo
     public function __construct() {
         $host = 'localhost';
-        $db   = 'test';
+        $db   = '3660_project_comp_repair';
         $user = 'root';
         $pass = '';
         $charset = 'utf8mb4';
@@ -28,23 +47,68 @@
         ];
 
 		try {
-            $pdo = new PDO($dsn, $user, $pass, $options);
+            $this->pdo = new PDO($connString, $user, $pass, $options);
         } catch (PDOException $e) {
-            throw new PDOException($e->getMessage(), (int)$e->getCode());
+            $error_msg = $e->getMessage();
+            logError($error_msg);
         }
+    }
+
+    public static function getInstance() {
+        if (!self::$instance) {
+            self::$instance = new Db();
+        }
+
+        return self::$instance;
     }
 
     // *** CUSTOMERS ***
-    public function getCustomers() {
-        return $pdo->query('select * from customers');
+    public function getAll($table) {
+        $result = new QueryResult();
 
+        if (!validTable($table)) {
+            logError("An invalid table was passed to db->getAll: $table");
+            $result->errors[] = SERVER_ERROR_MSG;
+            return $result;
+        }
+
+        try {
+            $result->data = $this->pdo->query('select * from ' . $table);
+        }
+        catch (PDOException $e) {
+            logError($e->getMessage(), (int)$e->getCode());
+            $result->errors[] = SERVER_ERROR_MSG;;
+        }
+
+        return $result;
     }
 
-    public function getCustomerById($id) {
-        if ($is_null) {
-            throw new Exception("No ID was provided");
+    public function getSingleById($table, $id) {
+        $result = new QueryResult();
+
+        if (!validTable($table)) {
+            logError("An invalid table was passed to db->getSingleByID: $table");
+            $result->errors[] = SERVER_ERROR_MSG;
+            return $result;
         }
-        $pdo->prepare('select * from customers where ');
+
+        if (is_null($id)) {
+            logError("Can't retrieve single record from $table, no ID was provided");
+            $result->errors[] = SERVER_ERROR_MSG;
+            return $result;
+        }
+        try {
+            $result->data = $this->pdo->prepare('select * from :table where id = :id');
+            $result->data->bindParam(':table', $table);
+            $result->data->bindParam(':id', $id);
+            $result->data->execute();
+        }
+        catch (PDOException $e) {
+            logError($e->getMessage(), (int)$e->getCode());
+            $result->errors[] = SERVER_ERROR_MSG;
+        }
+
+        return $result;
     }
 
     public function addCustomer($name, $email, $phone, $address) {
@@ -55,17 +119,16 @@
         if (count($result->errors == 0)) {
             try {
                 $sql = "insert into customers (name, email, phone, address) values (:name, :email, :phone, :address";
-                $query = $pdo->prepare($sql);
-                $query->bindParam(':name', $name);
-                $query->bindParam(':email', $email);
-                $query->bindParam(':phone', $phone);
-                $query->bindParam(':address', $address);
-                $query->execute();
-                $result->data = $query;
+                $result->data = $this->pdo->prepare($sql);
+                $result->data->bindParam(':name', $name);
+                $result->data->bindParam(':email', $email);
+                $result->data->bindParam(':phone', $phone);
+                $result->data->bindParam(':address', $address);
+                $result->data->execute();
             }
             catch (PDOException $e) {
                 throw new PDOException($e->getMessage(), (int)$e->getCode());
-                $result->errors[] = "A server error occured. Reload the page and try again, or contact the administrator of this site.";
+                $result->errors[] = SERVER_ERROR_MSG;
             }
         }
 
@@ -80,17 +143,17 @@
         if (count($result->errors == 0)) {
             try {
                 $sql = "update customers set name = :name, email = :email, phone = :phone, address = :address where id = :id";
-                $query = $pdo->prepare($sql);
-                $query->bindParam(':name', $name);
-                $query->bindParam(':email', $email);
-                $query->bindParam(':phone', $phone);
-                $query->bindParam(':address', $address);
-                $query->bindParam(':id', $id);
-                $query->execute();
+                $result->data = $this->pdo->prepare($sql);
+                $result->data->bindParam(':name', $name);
+                $result->data->bindParam(':email', $email);
+                $result->data->bindParam(':phone', $phone);
+                $result->data->bindParam(':address', $address);
+                $result->data->bindParam(':id', $id);
+                $result->data->execute();
             }
             catch (PDOException $e) {
                 throw new PDOException($e->getMessage(), (int)$e->getCode());
-                $result->errors[] = "A server error occured. Reload the page and try again, or contact the administrator of this site.";
+                $result->errors[] = SERVER_ERROR_MSG;
             }
         }
 
@@ -102,13 +165,13 @@
 
         try {
             $sql = "delete from customers id = :id";
-            $query = $pdo->prepare($sql);
-            $query->bindParam(':id', $id);
-            $query->execute();
+            $result->data = $this->pdo->prepare($sql);
+            $result->data->bindParam(':id', $id);
+            $result->data->execute();
         }
         catch (PDOException $e) {
             throw new PDOException($e->getMessage(), (int)$e->getCode());
-            $result->errors[] = "A server error occured. Reload the page and try again, or contact the administrator of this site.";
+            $result->errors[] = SERVER_ERROR_MSG;
         }
 
         return $result;
@@ -116,15 +179,6 @@
     // *** END CUSTOMERS ***
 
     // *** STOCK ***
-    public function getStockItems() {
-        
-    }
-
-    public function getStockById() {
-        
-    }
-    
-
     public function addNewStockItem() {
 
     }
@@ -175,7 +229,7 @@
     }
     // *** ENDLINE ITEMS ***
 
-    // *** helpers ***
+    // *** helpers *** 
     private function validateCustomer(&$result, $name, $email, $phone, $address) {
         
 
@@ -196,23 +250,8 @@
         }
     }
 
-    private function validEmail($email) {
-        if (preg_match('/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/', $email) == 1) {
-            return true;
-        }
-        
-        return false;
-    }
-
-    private function validPhone($phone) {
-        if (preg_match('^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$', $phone) == 1) {
-            return true;
-        }
-
-        return false;
-    }
+    
 }
-
 
 ?>
 

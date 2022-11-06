@@ -1,4 +1,4 @@
-<?php include "../Modules/dbtest.php" ?> 
+<?php include "../data/db.php" ?> 
 
 <!doctype html>
 <html lang="en">
@@ -24,10 +24,20 @@
       </thead>
       <tbody>
         <?php
-          $stmt = $pdo->query('SELECT id, name, email, phone, address FROM CUSTOMERS');
-          while ($row = $stmt->fetch()) {
-            echo "<tr><td>" . $row['id'] . "</td><td>" . $row['name'] . "</td><td>" . $row['email'] . "</td><td>" . $row['phone'] . "</td><td>" . $row['address'] . "</td><td><button type='button' class='btn btn-primary'>View</button><button type='button' class='btn btn-secondary'>Edit</button><button type='button' class='btn btn-danger'>Delete</button></td></tr>";
+          $db = Db::getInstance();
+          $result = $db->getAll('customers');
+
+          if (count($result->errors) > 0) {
+            foreach ($result->errors as $error) {
+              echo "$error";
+            }
           }
+          else {
+            while ($customer = $result->data->fetch()) {
+              echo "<tr><td>" . $customer['id'] . "</td><td>" . $customer['name'] . "</td><td>" . $customer['email'] . "</td><td>" . $customer['phone'] . "</td><td>" . $customer['address'] . "</td><td><button type='button' class='btn btn-primary'>View</button><button type='button' class='btn btn-secondary'>Edit</button><button type='button' class='btn btn-danger'>Delete</button></td></tr>";
+            }
+          }
+
         ?>
       </tbody>
       </table>
