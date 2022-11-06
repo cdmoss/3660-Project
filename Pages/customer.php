@@ -42,7 +42,7 @@
                 echo "<td>" . $customer['phone'] . "</td>";
                 echo "<td>" . $customer['address'] . "</td>";
                 echo "<td><div class='btn-group' role='group'>";
-                echo "<a href='customerbyid.php?cus_id=" . $customer['id'] . "' class='btn btn-primary'>View/Edit</a>";
+                echo "<a href='customerbyid.php?cus_id=" . $customer['id'] . "' class='btn btn-primary'>Edit</a>";
                 echo "<a href='#' class='btn btn-danger'>Delete</a></td>";
                 echo "</tr>";
                 echo "</div>";

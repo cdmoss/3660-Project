@@ -152,7 +152,7 @@
         $result = new QueryResult();
 
         try {
-            $sql = "delete from customers id = :id";
+            $sql = "delete from customers where id = :id";
             $result->data = $this->pdo->prepare($sql);
             $result->data->bindParam(':id', $id);
             $result->data->execute();
