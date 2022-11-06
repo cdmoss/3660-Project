@@ -37,7 +37,6 @@
               echo "<tr><td>" . $customer['id'] . "</td><td>" . $customer['name'] . "</td><td>" . $customer['email'] . "</td><td>" . $customer['phone'] . "</td><td>" . $customer['address'] . "</td><td><button type='button' class='btn btn-primary'>View</button><button type='button' class='btn btn-secondary'>Edit</button><button type='button' class='btn btn-danger'>Delete</button></td></tr>";
             }
           }
-
         ?>
       </tbody>
       </table>

@@ -15,12 +15,30 @@
         return TABLE::tryFrom($table) != null;
     }
 
+    function validateCustomer(&$result, $name, $email, $phone, $address) {
+        if (is_null($name)) {
+            $result->errors[] = 'A name was not provided.';
+        }
+
+        if (!validEmail($email) || is_null($email)) {
+            $result->errors[] = 'A valid email was not provided.';
+        }
+
+        if (!validPhone($phone) || is_null($phone)) {
+            $result->errors[] = 'A valid phone number was not provided.';
+        }
+
+        if (strlen($address) > 100) {
+            $result->errors[] = 'The provided address exceeded maximum length.';
+        }
+    }
+
     function validEmail($email) {
         return preg_match('/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/', $email) == 1;
     }
 
     function validPhone($phone) {
-        return preg_match('^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$', $phone) == 1;
+        return preg_match('/^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$/', $phone) == 1;
     }
 
     class Db {
@@ -98,8 +116,7 @@
             return $result;
         }
         try {
-            $result->data = $this->pdo->prepare('select * from :table where id = :id');
-            $result->data->bindParam(':table', $table);
+            $result->data = $this->pdo->prepare('select * from ' . $table . ' where id = :id');
             $result->data->bindParam(':id', $id);
             $result->data->execute();
         }
@@ -116,9 +133,9 @@
 
         validateCustomer($result, $name, $email, $phone, $address);
 
-        if (count($result->errors == 0)) {
+        if (count($result->errors) == 0) {
             try {
-                $sql = "insert into customers (name, email, phone, address) values (:name, :email, :phone, :address";
+                $sql = "insert into customers (name, email, phone, address) values (:name, :email, :phone, :address)";
                 $result->data = $this->pdo->prepare($sql);
                 $result->data->bindParam(':name', $name);
                 $result->data->bindParam(':email', $email);
@@ -228,29 +245,6 @@
 
     }
     // *** ENDLINE ITEMS ***
-
-    // *** helpers *** 
-    private function validateCustomer(&$result, $name, $email, $phone, $address) {
-        
-
-        if (is_null($name)) {
-            $result->errors[] = 'A name was not provided.';
-        }
-
-        if (!validEmail($email) || is_null($email)) {
-            $result->errors[] = 'A valid email was not provided.';
-        }
-
-        if (!validPhone($phone) || is_null($phone)) {
-            $result->errors[] = 'A valid phone number was not provided.';
-        }
-
-        if (strlen($address) > 100) {
-            $result->errors[] = 'The provided address exceeded maximum length.';
-        }
-    }
-
-    
 }
 
 ?>
