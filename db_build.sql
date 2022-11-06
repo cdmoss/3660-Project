@@ -22,7 +22,7 @@ CREATE TABLE invoices (
 	created date NOT NULL,
 	cleared BOOLEAN NOT NULL,
 	customer_id bigint unsigned NOT NULL,
-    CONSTRAINT fk_invoice_customer FOREIGN KEY (customer_id) REFERENCES customers (id)
+    CONSTRAINT fk_invoice_customer FOREIGN KEY (customer_id) REFERENCES customers (id) ON DELETE SET NULL
 );
 CREATE TABLE lineitems (
 	stock_id bigint unsigned,
@@ -30,6 +30,6 @@ CREATE TABLE lineitems (
 	label varchar(250),
 	qty int NOT NULL CHECK(qty > 0),
 	price decimal NOT NULL,
-	CONSTRAINT fk_stock FOREIGN KEY (stock_id) REFERENCES stock (id),
-	CONSTRAINT fk_invoice FOREIGN KEY (invoice_id) REFERENCES invoices (id)
+	CONSTRAINT fk_stock FOREIGN KEY (stock_id) REFERENCES stock (id), ON DELETE SET NULL
+	CONSTRAINT fk_invoice FOREIGN KEY (invoice_id) REFERENCES invoices (id) ON DELETE CASCADE
 )
