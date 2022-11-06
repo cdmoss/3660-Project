@@ -1,1 +1,2 @@
-- [ ] change lineitems
+- [ ] customerbyid add (name - id) to topbar
+- [ ] add error display in customerbyid page
