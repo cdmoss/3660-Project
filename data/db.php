@@ -13,12 +13,103 @@
     }
 
     class Db {
-    // connection object
+
+    // *** PRIVATE MEMBERS ***
     private static $instance = null;
     private $pdo;
-
-    // error array
     private $errors = array();
+
+    private function validTable($table) {
+        return TABLE::tryFrom($table) != null;
+    }
+
+    private function validEmail($email) {
+        return preg_match('/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/', $email) == 1;
+    }
+
+    private function validPhone($phone) {
+        return preg_match('/^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$/', $phone) == 1;
+    }
+
+    private function validateCustomer(&$result, $name, $email, $phone, $address) {
+        if (is_null($name)) {
+            $result->errors[] = 'A name was not provided.';
+        }
+
+        if (!validEmail($email) || is_null($email)) {
+            $result->errors[] = 'A valid email was not provided.';
+        }
+
+        if (!validPhone($phone) || is_null($phone)) {
+            $result->errors[] = 'A valid phone number was not provided.';
+        }
+
+        if (strlen($address) > 100) {
+            $result->errors[] = 'The provided address exceeded maximum length.';
+        }
+    }
+
+    private function validateStock(&$result, $name, $current_price, $qty) {
+        if (is_null($name)) {
+            $result->errors[] = 'A name was not provided.';
+        }
+
+        if (is_null($current_price) || !is_float($current_price) || $current_price < 0) {
+            $result->errors[] = 'A valid price was not provided.';
+        }
+
+        if (!is_null($qty) || !is_int($qty) || $qty < 0) {
+            $result->errors[] = 'A valid quantity was not provided.';
+        }
+    }
+
+    private function existingRecordInTableHasId($table, $id) {
+        if (!validTable($table)) {
+            return false;
+        }
+
+        $validateCustomerQuery = $this->pdo->prepare('select * from ' . $table . 'where id = :id');
+        $validateCustomerQuery->bindParam(':id', $customerId);
+        $validateCustomerQuery->execute();
+
+        return $validateCustomerQuery->rowCount() > 0;
+    }
+
+    private function validateInvoice(&$result, $label, $customerId) {
+        // validate label
+        if (is_null($label)) {
+            $result->errors[] = 'A valid label was not provided.';
+        }
+
+        // validate customer id
+        if (is_null($customerId)) {
+            $result->errors[] = 'A valid customer id was not provided.';
+        }
+        // validate that given customer exists
+        elseif (!existingRecordInTableHasId("customers", $customerId)) { 
+            $result->errors[] = 'There are no customers with that id.';
+        }
+    }
+
+    private function validateLineItem(&$result, $stockId, $invoiceId, $qty, $price) {
+        if (!existingRecordInTableHasId("stock", $stockId)) {
+            $result->errors[] = 'There are no stock items with that id.';
+        }
+
+        if (!existingRecordInTableHasId("invoices", $invoiceId)) {
+            $result->errors[] = 'There are no invoices with that id.';
+        }
+
+        if (!is_null($qty) || !is_int($qty) || $qty < 1) {
+            $result->errors[] = 'A valid quantity was not provided.';
+        }
+
+        if (is_null($price) || !is_float($price) || $price < 0) {
+            $result->errors[] = 'A valid price was not provided.';
+        }
+    }
+
+    // *** END PRIVATE MEMBERS ***
 
     // constructor creates new connection and stores it locally in $this->pdo
     public function __construct() {
@@ -51,7 +142,7 @@
         return self::$instance;
     }
 
-    // *** CUSTOMERS ***
+    // *** GENERIC OPERATIONS ***
     public function getAll($table) {
         $result = new QueryResult();
 
@@ -99,6 +190,37 @@
         return $result;
     }
 
+    public function delete($table, $id) {
+        $result = new QueryResult();
+
+        if (!validTable($table)) {
+            logError("An invalid table was passed to db->getSingleByID: $table");
+            $result->errors[] = SERVER_ERROR_MSG;
+            return $result;
+        }
+
+        if (is_null($id)) {
+            logError("Can't delete from $table, no ID was provided");
+            $result->errors[] = SERVER_ERROR_MSG;
+            return $result;
+        }
+
+        try {
+            $sql = "delete from " . $table . "where id = :id";
+            $result->data = $this->pdo->prepare($sql);
+            $result->data->bindParam(':id', $id);
+            $result->data->execute();
+        }
+        catch (PDOException $e) {
+            throw new PDOException($e->getMessage(), (int)$e->getCode());
+            $result->errors[] = SERVER_ERROR_MSG;
+        }
+
+        return $result;
+    }
+    // *** END GENERIC OPERATIONS ***
+
+    // *** CUSTOMERS ***
     public function addCustomer($name, $email, $phone, $address) {
         $result = new QueryResult();
 
@@ -152,7 +274,7 @@
         $result = new QueryResult();
 
         try {
-            $sql = "delete from customers id = :id";
+            $sql = "delete from customers where id = :id";
             $result->data = $this->pdo->prepare($sql);
             $result->data->bindParam(':id', $id);
             $result->data->execute();
@@ -167,52 +289,204 @@
     // *** END CUSTOMERS ***
 
     // *** STOCK ***
-    public function addNewStockItem() {
+    public function addNewStockItem($name, $current_price, $qty) {
+        $result = new QueryResult();
 
+        validateStock($result, $name, $current_price, $qty);
+
+        if (count($result->errors) == 0) {
+            try {
+                $sql = "insert into stock (name, current_price, qty) values (:name, :current_price, :qty)";
+                $result->data = $this->pdo->prepare($sql);
+                $result->data->bindParam(':name', $name);
+                $result->data->bindParam(':current_price', $current_price);
+                $result->data->bindParam(':qty', $qty);
+                $result->data->execute();
+            }
+            catch (PDOException $e) {
+                throw new PDOException($e->getMessage(), (int)$e->getCode());
+                $result->errors[] = SERVER_ERROR_MSG;
+            }
+        }
+
+        return $result;
     }
 
-    public function editStockItem() {
+    public function editStockItem($id, $name, $current_price, $qty) {
+        $result = new QueryResult();
 
+
+        validateStock($result, $name, $current_price, $qty);
+
+        if (count($result->errors) == 0) {
+            try {
+                $sql = "update stock set name = :name, current_price = :current_price, qty = :qty where id = :id";
+                $result->data = $this->pdo->prepare($sql);
+                $result->data->bindParam(':name', $name);
+                $result->data->bindParam(':current_price', $current_price);
+                $result->data->bindParam(':qty', $qty);
+                $result->data->execute();
+            }
+            catch (PDOException $e) {
+                throw new PDOException($e->getMessage(), (int)$e->getCode());
+                $result->errors[] = SERVER_ERROR_MSG;
+            }
+        }
+
+        return $result;
     }
 
-    public function deleteStockItem() {
+    public function deleteStockItem($id) {
+        $result = new QueryResult();
 
+        try {
+            $sql = "delete from stock where id = :id";
+            $result->data = $this->pdo->prepare($sql);
+            $result->data->bindParam(':id', $id);
+            $result->data->execute();
+        }
+        catch (PDOException $e) {
+            throw new PDOException($e->getMessage(), (int)$e->getCode());
+            $result->errors[] = SERVER_ERROR_MSG;
+        }
+
+        return $result;
     }
     // *** END STOCK ***
 
-    // *** INVOICE ***
-    public function getInvoices() {
-
-    }
-
-    public function getInvoiceById($id) {
+    // *** INVOICE **
+    public function getInvoicesByCustomer($customerId) {
         
+
+        if (count($result->errors) == 0) {
+            try {
+                $sql = "select * from invoices where customer_id = :customer_id";
+                $result->data = $this->pdo->prepare($sql);
+                $result->data->bindParam(':customer_id', $customerId);
+                $result->data->execute();
+            }
+            catch (PDOException $e) {
+                throw new PDOException($e->getMessage(), (int)$e->getCode());
+                $result->errors[] = SERVER_ERROR_MSG;
+            }
+        }
+
+        return $result;
     }
-    
 
-    public function getInvoicesByCustomer($custId) {
+    public function addInvoice($label, $customerId) {
+        $result = new QueryResult();
 
+        validateInvoice($result, $label, $customerId);
+
+        if (count($result->errors) == 0) {
+            try {
+                $sql = "insert into invoices (label, customer_id) values (:label, :customer_id)";
+                $result->data = $this->pdo->prepare($sql);
+                $result->data->bindParam(':label', $label);
+                $result->data->bindParam(':customer_id', $customerId);
+                $result->data->execute();
+            }
+            catch (PDOException $e) {
+                throw new PDOException($e->getMessage(), (int)$e->getCode());
+                $result->errors[] = SERVER_ERROR_MSG;
+            }
+        }
+
+        return $result;
     }
 
-    public function addInvoice() {
+    public function editInvoice($id, $label, $cleared, $customerId) {
+        $result = new QueryResult();
 
+        validateInvoice($result, $label, $customerId);
+
+        if (count($result->errors) == 0) {
+            try {
+                $sql = "update invoices set label = :label, customer_id = :customer_id, cleared = :cleared where id = :id";
+                $result->data = $this->pdo->prepare($sql); 
+                $result->data->bindParam(':label', $label);
+                $result->data->bindParam(':customer_id', $customerId);
+                $result->data->bindParam(':cleared', $cleared);
+                $result->data->bindParam(':id', $id);
+                $result->data->execute();
+            }
+            catch (PDOException $e) {
+                throw new PDOException($e->getMessage(), (int)$e->getCode());
+                $result->errors[] = SERVER_ERROR_MSG;
+            }
+        }
+
+        return $result;
     }
 
-    public function editInvoice() {
+    public function deleteInvoice($id) {
+        $result = new QueryResult();
 
-    }
+        try {
+            $sql = "delete from invoices where id = :id";
+            $result->data = $this->pdo->prepare($sql);
+            $result->data->bindParam(':id', $id);
+            $result->data->execute();
+        }
+        catch (PDOException $e) {
+            throw new PDOException($e->getMessage(), (int)$e->getCode());
+            $result->errors[] = SERVER_ERROR_MSG;
+        }
 
-    public function deleteInvoice() {
-
+        return $result;
     }
     // *** END INVOICE ***
 
     // *** LINE ITEMS ***
-    public function addLineItem() {
+    public function addLineItem($stockId, $invoiceId, $label, $qty, $price) {
+        $result = new QueryResult();
 
+        validateLineItem($stockId, $invoiceId, $qty, $price);
+
+        if (count($result->errors) == 0) {
+            try {
+                $label = is_null($label) ? '' : $label;
+                $sql = "insert into lineitems (stock_id, invoice_id, label, qty, price) values (:stock_id, :invoice_id, :label, :qty, :price)";
+                $result->data = $this->pdo->prepare($sql);
+                $result->data->bindParam(':stock_id', $stockId);
+                $result->data->bindParam(':invoice_id', $invoiceId);
+                $result->data->bindParam(':label', $label);
+                $result->data->bindParam(':qty', $qty);
+                $result->data->bindParam(':price', $price);
+                $result->data->execute();
+            }
+            catch (PDOException $e) {
+                throw new PDOException($e->getMessage(), (int)$e->getCode());
+                $result->errors[] = SERVER_ERROR_MSG;
+            }
+        }
+
+        return $result;
     }
 
-    public function deleteLineItem() {
+    public function deleteLineItem($stockId, $invoiceId) {
+        $result = new QueryResult();
+        if (is_null($stockId)) {
+            $result->errors[] = "A valid stock id was not provided";
+        }
+        if (is_null($invoiceId)) {
+            $result->errors[] = "A valid invoice id was not provided";
+        }
+
+        if (count($result->errors) == 0) {
+            try {
+                $sql = "delete from lineitems where stock_id = :stock_id and invoice_id = :invoice_id";
+                $result->data = $this->pdo->prepare($sql);
+                $result->data->bindParam(':stock_id', $stockId);
+                $result->data->bindParam(':invoice_id', $invoiceId);
+                $result->data->execute();
+            }
+            catch (PDOException $e) {
+                throw new PDOException($e->getMessage(), (int)$e->getCode());
+                $result->errors[] = SERVER_ERROR_MSG;
+            }
+        }
 
     }
     // *** ENDLINE ITEMS ***

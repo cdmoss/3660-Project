@@ -3,13 +3,12 @@
 <?php 
     if(isset($_POST['delCustomer'])) {
         $db = Db::getInstance();
-        $result = $db->deleteCustomer($_GET['cus_id']);
+        $result = $db->delete('customers', $_GET['cus_id']);
     }
 
     if(isset($_POST['editCustomer'])) {
         $db = Db::getInstance();
-        $result = $db->editCustomer
-        ($_POST['cusid'], $_POST['cusname'], $_POST['cusemail'], $_POST['cusphone'], $_POST['cusaddress']);
+        $result = $db->editCustomer($_POST['cusid'], $_POST['cusname'], $_POST['cusemail'], $_POST['cusphone'], $_POST['cusaddress']);
     }
 ?>
 

@@ -76,6 +76,20 @@ function _editCustomer($id, $name, $email, $phone, $address) {
         echo "Edited Customer";
     }
 }
+
+function _deleteCustomer($id) {
+    $db = Db::getInstance();
+    $result = $db->deleteCustomer($id);
+
+    if (count($result->errors) > 0) {
+        foreach ($result->errors as $error) {
+            echo "$error";
+        }
+    }
+    else {
+        echo "Deleted Customer";
+    }
+}
 ?>
 
 <!doctype html>
@@ -152,6 +166,17 @@ function _editCustomer($id, $name, $email, $phone, $address) {
         <?php
         if (isset($_POST['edit-customer-btn'])){
             _editCustomer($_POST['id'], $_POST['name'], $_POST['email'], $_POST['phone'], $_POST['address']);
+        }
+        ?>
+        <hr/>
+        <h5>Delete Customer</h5>
+        <form id="delete-customer" name="delete-customer" action="test.php" method="post">
+            <label for="id">id</label>
+            <input type="text" name="id">
+        </form>
+        <?php
+        if (isset($_POST['delete-customer-btn'])){
+            _deleteCustomer($_POST['id']);
         }
         ?>
     </div>
