@@ -51,12 +51,12 @@ else {
         echo "<div id='collapseOne' class='collapse show' aria-labelledby='headingOne'>";
         echo "<div class='card-body'>";
         echo "<form method='POST'>";
-            echo "<div class='form-group' style='min-width: 250px; width: 25%; margin-left: 2%;'><label for='cusid'>Customer ID</label><input type='text' class='form-control' name='cusid' value='" . $customer['id'] . "' readonly /></div>";
-            echo "<div class='form-group' style='min-width: 250px; width: 25%; margin-left: 2%;'><label for='cusname'>Name</label><input type='text' class='form-control' name='cusname' value='" . $customer['name'] . "' /></div>";
-            echo "<div class='form-group' style='min-width: 250px; width: 25%; margin-left: 2%;'><label for='cusphone'>Phone Number</label><input type='text' class='form-control' name='cusphone' value='" . $customer['phone'] . "' /></div>";
-            echo "<div class='form-group' style='min-width: 250px; width: 25%; margin-left: 2%;'><label for='cusemail'>Email Address</label><input type='email' class='form-control' name='cusemail' value='" . $customer['email'] . "' /></div>";
-            echo "<div class='form-group' style='min-width: 250px; width: 25%; margin-left: 2%;'><label for='cusaddress'>Address</label><input type='text' class='form-control' name='cusaddress' value='" . $customer['address'] . "' /></div>";
-            echo "<div class='btn-group' role='group' style='min-width: 250px; width: 25%; margin-left: 2%;'>";
+            echo "<div class='form-group cusbyidInput'><label for='cusid'>Customer ID</label><input type='text' class='form-control' name='cusid' value='" . $customer['id'] . "' readonly /></div>";
+            echo "<div class='form-group cusbyidInput'><label for='cusname'>Name</label><input type='text' class='form-control' name='cusname' value='" . $customer['name'] . "' /></div>";
+            echo "<div class='form-group cusbyidInput'><label for='cusphone'>Phone Number</label><input type='text' class='form-control' name='cusphone' value='" . $customer['phone'] . "' /></div>";
+            echo "<div class='form-group cusbyidInput'><label for='cusemail'>Email Address</label><input type='email' class='form-control' name='cusemail' value='" . $customer['email'] . "' /></div>";
+            echo "<div class='form-group cusbyidInput'><label for='cusaddress'>Address</label><input type='text' class='form-control' name='cusaddress' value='" . $customer['address'] . "' /></div>";
+            echo "<div class='btn-group cusbyidInput' role='group'>";
             echo "<input type='submit' name='editCustomer' class='btn btn-warning' value='Save Changes' />";
             echo "<input type='submit' name='delCustomer' class='btn btn-danger' value='Delete' />";
             echo "<a href='customer.php' class='btn btn-primary'>Go Back</a>";
