@@ -42,7 +42,7 @@
             <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
               <?= $page == 'index.php' ? "<b>Home</b>" : '' ?>
               <?= $page == 'customer.php' ? "<b>Customer Information</b>" : '' ?>
-              <?= $page == 'customerbyid.php' ? "<b>Customer Information / " . $_GET['cus_id'] . "</b>" : '' ?>
+              <?= $page == 'customerbyid.php' ? "<b><a href='customer.php'>Customer Information</a> / " . $_GET['cus_name'] . " - ID: " . $_GET['cus_id'] . "</b>" : '' ?>
               <?= $page == 'stock.php' ? "<b>Stock Items</b>" : '' ?>
               <?= $page == 'invoice.php' ? "<b>Invoices</b>" : '' ?>
             </nav>

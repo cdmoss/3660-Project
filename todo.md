@@ -1,2 +1,2 @@
-- [ ] customerbyid add (name - id) to topbar
-- [ ] add error display in customerbyid page
+- [ x ] customerbyid add (name - id) to topbar
+- [ x ] add error display in customerbyid page
