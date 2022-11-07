@@ -146,7 +146,7 @@
     public function getAll($table) {
         $result = new QueryResult();
 
-        if (!validTable($table)) {
+        if (!$this->validTable($table)) {
             logError("An invalid table was passed to db->getAll: $table");
             $result->errors[] = SERVER_ERROR_MSG;
             return $result;
@@ -166,7 +166,7 @@
     public function getSingleById($table, $id) {
         $result = new QueryResult();
 
-        if (!validTable($table)) {
+        if (!$this->validTable($table)) {
             logError("An invalid table was passed to db->getSingleByID: $table");
             $result->errors[] = SERVER_ERROR_MSG;
             return $result;
@@ -193,7 +193,7 @@
     public function delete($table, $id) {
         $result = new QueryResult();
 
-        if (!validTable($table)) {
+        if (!$this->validTable($table)) {
             logError("An invalid table was passed to db->getSingleByID: $table");
             $result->errors[] = SERVER_ERROR_MSG;
             return $result;
@@ -224,7 +224,7 @@
     public function addCustomer($name, $email, $phone, $address) {
         $result = new QueryResult();
 
-        validateCustomer($result, $name, $email, $phone, $address);
+        $this->validateCustomer($result, $name, $email, $phone, $address);
 
         if (count($result->errors) == 0) {
             try {
@@ -248,7 +248,7 @@
     public function editCustomer($id, $name, $email, $phone, $address) {
         $result = new QueryResult();
 
-        validateCustomer($result, $name, $email, $phone, $address);
+        $this->validateCustomer($result, $name, $email, $phone, $address);
 
         if (count($result->errors) == 0) {
             try {
@@ -292,7 +292,7 @@
     public function addNewStockItem($name, $current_price, $qty) {
         $result = new QueryResult();
 
-        validateStock($result, $name, $current_price, $qty);
+        $this->validateStock($result, $name, $current_price, $qty);
 
         if (count($result->errors) == 0) {
             try {
@@ -316,7 +316,7 @@
         $result = new QueryResult();
 
 
-        validateStock($result, $name, $current_price, $qty);
+        $this->validateStock($result, $name, $current_price, $qty);
 
         if (count($result->errors) == 0) {
             try {
@@ -377,7 +377,7 @@
     public function addInvoice($label, $customerId) {
         $result = new QueryResult();
 
-        validateInvoice($result, $label, $customerId);
+        $this->validateInvoice($result, $label, $customerId);
 
         if (count($result->errors) == 0) {
             try {
@@ -399,7 +399,7 @@
     public function editInvoice($id, $label, $cleared, $customerId) {
         $result = new QueryResult();
 
-        validateInvoice($result, $label, $customerId);
+        $this->validateInvoice($result, $label, $customerId);
 
         if (count($result->errors) == 0) {
             try {
@@ -442,7 +442,7 @@
     public function addLineItem($stockId, $invoiceId, $label, $qty, $price) {
         $result = new QueryResult();
 
-        validateLineItem($stockId, $invoiceId, $qty, $price);
+        $this->validateLineItem($stockId, $invoiceId, $qty, $price);
 
         if (count($result->errors) == 0) {
             try {
