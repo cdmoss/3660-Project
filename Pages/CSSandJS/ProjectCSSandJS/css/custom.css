@@ -1,0 +1,19 @@
+.cusbyidInput {
+    min-width: 250px; 
+    width: 25%; 
+    margin-left: 2%;
+}
+
+.add-customer-modal {
+    min-width: 250px; 
+    width: 95%; 
+    margin-left: 2%;
+}
+
+.add-customer-modal-footer {
+    min-width: 250px; 
+    width: 15%; 
+    margin-left: auto;
+    margin-right: 4%;
+    margin-bottom: 5%;
+}

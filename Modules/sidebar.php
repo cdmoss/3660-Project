@@ -7,27 +7,27 @@
 
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="customer.php">
-                <div class="sidebar-brand-icon" style="margin-top: 50px;">
-                    <img src="../images/logowhite.png" width="200" height="200">
+                <div class="sidebar-brand-icon" style="margin-top: 45px;">
+                    <img src="../images/logowhite.png" width="160" height="120">
                 </div>
             </a>
 
             <!-- Divider -->
-            <hr class="sidebar-divider mt-5 my-0">
+            <hr class="sidebar-divider mt-5">
 
             <!-- Heading -->
-            <div class="sidebar-heading mt-2 my-0">
+            <div class="sidebar-heading mt-2">
                 Pages
             </div>
 
             <!-- Nav Item - Customer -->
-            <li class="nav-item <?= $page == 'customer.php' ? 'active' : '' ?>"><a class="nav-link" href="customer.php"><i class="fa-solid fa-user"></i><span class="ml-1">Customer</span></a></li>
+            <li class="nav-item ml-2 <?= $page == 'customer.php' ? 'active' : '' ?>"><a class="nav-link" href="customer.php"><i class="fa-solid fa-user fa-lg"></i><span class="ml-2">Customer</span></a></li>
 
             <!-- Nav Item - Stock -->
-            <li class="nav-item <?= $page == 'stock.php' ? 'active' : '' ?>"><a class="nav-link" href="stock.php"><i class="fa-solid fa-boxes-stacked"></i><span class="ml-1">Stock</span></a></li>
+            <li class="nav-item ml-2 <?= $page == 'stock.php' ? 'active' : '' ?>"><a class="nav-link" href="stock.php"><i class="fa-solid fa-boxes-stacked"></i><span class="ml-2">Stock</span></a></li>
 
             <!-- Nav Item - Invoice -->
-            <li class="nav-item <?= $page == 'invoice.php' ? 'active' : '' ?>"><a class="nav-link" href="invoice.php"><i class="fa-solid fa-file-invoice-dollar"></i><span class="ml-1">Invoice</span></a></li>
+            <li class="nav-item ml-2 <?= $page == 'invoice.php' ? 'active' : '' ?>"><a class="nav-link" href="invoice.php"><i class="fa-solid fa-file-invoice-dollar"></i><span class="ml-2">Invoice</span></a></li>
 
         </ul>
         <!-- End of Sidebar -->
@@ -42,9 +42,9 @@
             <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
               <?= $page == 'index.php' ? "<b>Home</b>" : '' ?>
               <?= $page == 'customer.php' ? "<b>Customer Information</b>" : '' ?>
+              <?= $page == 'customerbyid.php' ? "<b><a href='customer.php'>Customer Information</a> / " . $_GET['cus_name'] . " - ID: " . $_GET['cus_id'] . "</b>" : '' ?>
               <?= $page == 'stock.php' ? "<b>Stock Items</b>" : '' ?>
               <?= $page == 'invoice.php' ? "<b>Invoices</b>" : '' ?>
-              <?= $page == 'customerbyid.php' ? "<b>Customer</b>" : '' ?>
             </nav>
             <!-- End of Topbar -->
             
