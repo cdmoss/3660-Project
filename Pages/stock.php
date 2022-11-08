@@ -1,18 +1,24 @@
+<?php include "../data/db.php" ?>
+
 <!doctype html>
 <html lang="en">
   <head>
   </head>
-  <body>
+  <body id="page-top">
 
     <!-- Sidebar -->
     <?php include "../Modules/sidebar.php" ?>
 
     <div class="container-fluid">
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+        <i class='fa-solid fa-plus'></i><span class='ml-1'>Add a Stock Item</span>
+      </button>
     <!-- Table -->
+    <form method="POST">
     <table class="table mt-5">
     <thead class="thead-dark">
       <tr>
-        <th>ID</th> 
+        <th>ID</th>
         <th>Name</th>
         <th>Current Price</th>
         <th>Quantity</th>
@@ -20,21 +26,78 @@
       </tr>
     </thead>
     <tbody>
-      <!-- Data and Actions (View/Edit/Delete) -->
-      <tr>
-        <td>1</td>
-        <td>Weedwacker</td>
-        <td>$50.00</td>
-        <td>20</td>
-        <td><button type="button" class="btn btn-primary">View</button>
-        <button type="button" class="btn btn-secondary">Edit</button>
-        <button type="button" class="btn btn-danger">Delete</button></td>
-      </tr>
+      <?php
+        $db = Db::getInstance();
+        $result = $db->getAll('stock');
+
+        if (count($result->errors) > 0) {
+          foreach ($result->errors as $error) {
+            echo "$error";
+          }
+        }
+        else {
+          while ($stock = $result->data->fetch()) {
+            echo "<tr>";
+            echo "<td>" . $stock['id'] ."</td>";
+            echo "<td>" . $stock['name'] . "</td>";
+            echo "<td>" . $stock['current_price'] . "</td>";
+            echo "<td>" . $stock['qty'] . "</td>";
+            echo "<td><div class='btn-group' role='group'>";
+            echo "<a href='stockbyid.php?sto_id=" . $stock['id'] . "&sto_name=" . $stock['name'] . "' class='btn btn-primary'>View/Edit</a>";
+            echo "<a href='#' class='btn btn-danger'>Delete</a></td>";
+            echo "</tr>";
+            echo "</div>";
+          }
+        }
+      ?>
     </tbody>
     </table>
+  </form>
+
+  <form method="post">
+  <?php
+    echo "<!-- Add Stock Modal -->";
+    echo "<div class='modal fade' id='exampleModal' tabindex='-1' role='dialog' aria-labelledby='exampleModalLabel' aria-hidden='true'>";
+      echo "<div class='modal-dialog' role='document'>";
+        echo "<div class='modal-content'>";
+          echo "<div class='modal-header'>";
+            echo "<h5 class='modal-title' id='exampleModalLabel'>Add stock</h5>";
+            echo "<button type='button' class='close' data-dismiss='modal' aria-label='Close'>";
+              echo "<span aria-hidden='true'>&times;</span>";
+            echo "</button>";
+          echo "</div>";
+          echo "<div class='modal-body'>";
+
+            echo "<div class='form-group add-stock-modal'><label for='add_sto_name'>Name</label><input type='text' class='form-control' name='add_sto_name' /></div>";
+            echo "<div class='form-group add-stock-modal'><label for='add_sto_price'>Price</label><input type='text' class='form-control' name='add_sto_price' /></div>";
+            echo "<div class='form-group add-stock-modal'><label for='add_sto_qty'>Quantity</label><input type='text' class='form-control' name='add_sto_qty' /></div>";
+
+          echo "</div>";
+          echo "<hr'>";
+          echo "<div class='modal-footer'>";
+            echo "<div class='btn-group add-stock-modal-footer mb-0'>";
+              echo "<input type='submit' class='btn btn-primary' value='Submit'>";
+              echo "<button type='button' class='btn btn-secondary' data-dismiss='modal'>Close</button>";
+            echo "</div>";
+          echo "</div>
+        </div>
+      </div>
+    </div>";
+    ?>
     </div>
 
-  </body>
+    <?php
+    if (isset($_POST['submit'])) {
+        $db = Db::getInstance();
+        $db->addNewStockItem($_POST['add_sto_name'], $_POST['add_sto_price'], $_POST['add_sto_qty']);
+
+        $value = $_POST['add_sto_name'];
+        echo $value;
+      }
+      ?>
+    </form>
+
+</body>
 </html>
 
 <?php include "../Modules/linksandscripts.php" ?>
