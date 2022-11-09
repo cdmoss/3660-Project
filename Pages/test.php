@@ -120,7 +120,7 @@ function _deleteCustomer($id) {
   </head>
   <body>
     <div class="container">
-        <h5>Get all</h3>
+        <h5>Get all customers</h3>
         <?php
             getTable('customers');
         ?>
