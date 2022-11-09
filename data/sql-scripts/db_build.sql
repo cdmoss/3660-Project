@@ -6,8 +6,8 @@ DROP TABLE IF EXISTS customers;
 CREATE TABLE customers (
 	id bigint unsigned default(uuid_short()) primary key,
 	name varchar(50) NOT NULL,
-	email varchar(319), 
-	phone varchar(15), 
+	email varchar(319) UNIQUE, 
+	phone varchar(15) UNIQUE, 
 	address varchar(100)
 );
 CREATE TABLE stock (

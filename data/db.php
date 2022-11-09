@@ -374,17 +374,20 @@
         return $result;
     }
 
-    public function addInvoice($label, $customerId) {
+    public function addInvoice($label, $customerId, $cleared) {
         $result = new QueryResult();
 
         $this->validateInvoice($result, $label, $customerId);
 
         if (count($result->errors) == 0) {
             try {
-                $sql = "insert into invoices (label, customer_id) values (:label, :customer_id)";
+                $sql = "insert into invoices (label, customer_id, cleared) values (:label, :customer_id, :cleared)";
                 $result->data = $this->pdo->prepare($sql);
                 $result->data->bindParam(':label', $label);
                 $result->data->bindParam(':customer_id', $customerId);
+                $_cleared = isset($cleared) ? $cleared : false;
+                $result->data->bindParam(':cleared', $cleared);
+                
                 $result->data->execute();
             }
             catch (PDOException $e) {
