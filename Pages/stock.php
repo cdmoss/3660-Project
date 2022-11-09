@@ -1,5 +1,17 @@
 <?php include "../data/db.php" ?>
 
+<?php
+  if (isset($_POST['stockAdd'])) {
+      $db = Db::getInstance();
+      $result = $db->addNewStockItem($_POST['add_sto_name'], $_POST['add_sto_price'], $_POST['add_sto_qty']);
+      if (count($result->errors) > 0) {
+        foreach ($result->errors as $error) {
+          echo "$error";
+        }
+    }
+  }
+?>
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -67,7 +79,7 @@
             echo "</button>";
           echo "</div>";
           echo "<div class='modal-body'>";
-
+          echo "<form method='POST'>";
             echo "<div class='form-group add-stock-modal'><label for='add_sto_name'>Name</label><input type='text' class='form-control' name='add_sto_name' /></div>";
             echo "<div class='form-group add-stock-modal'><label for='add_sto_price'>Price</label><input type='text' class='form-control' name='add_sto_price' /></div>";
             echo "<div class='form-group add-stock-modal'><label for='add_sto_qty'>Quantity</label><input type='text' class='form-control' name='add_sto_qty' /></div>";
@@ -79,24 +91,13 @@
               echo "<input type='submit' class='btn btn-primary' name='stockAdd' value='Submit'>";
               echo "<button type='button' class='btn btn-secondary' data-dismiss='modal'>Close</button>";
             echo "</div>";
+            echo "</form>";
           echo "</div>
         </div>
       </div>
     </div>";
     ?>
     </div>
-
-    <?php
-    if (isset($_POST['stockAdd'])) {
-        $db = Db::getInstance();
-        $db->addNewStockItem($_POST['add_sto_name'], $_POST['add_sto_price'], $_POST['add_sto_qty']);
-
-        $value = $_POST['add_sto_name'];
-        echo $value;
-      }
-      ?>
-    </form>
-
 </body>
 </html>
 
