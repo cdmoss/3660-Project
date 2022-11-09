@@ -9,6 +9,7 @@
               echo "$error";
             }
         }
+        header('location: customer.php');
     }
 
 
@@ -20,6 +21,7 @@
               echo "$error";
             }
         }
+        header('location: customerbyid.php?cus_id=' . $_POST['cusid'] . '&cus_name=' . $_POST['cusname'] .'');
     }
 
 ?>

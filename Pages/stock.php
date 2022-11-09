@@ -1,13 +1,30 @@
 <?php include "../data/db.php" ?>
 
 <?php
-  if (isset($_POST['add_stock'])) {
-      $db = Db::getInstance();
-      $result = $db->addNewStockItem($_POST['add_sto_name'], $_POST['add_sto_price'], $_POST['add_sto_qty']);
-      if (count($result->errors) > 0) {
-        foreach ($result->errors as $error) {
-          echo "$error";
+  if(!empty($_POST)) {
+    foreach ($_POST as $name => $val)
+    {
+      if (str_contains($name, 'del_stock_id_')) {
+        $stock_id = explode('_', $name);
+        $db = Db::getInstance();
+        $result = $db->deleteStockItem($stock_id[3]);
+        if (count($result->errors) > 0) {
+            foreach ($result->errors as $error) {
+              echo "$error";
+            }
         }
+        header('location: stock.php');
+      }
+    }
+  }
+
+  if (isset($_POST['add_stock'])) {
+    $db = Db::getInstance();
+    $result = $db->addNewStockItem($_POST['add_sto_name'], $_POST['add_sto_price'], $_POST['add_sto_qty']);
+    if (count($result->errors) > 0) {
+      foreach ($result->errors as $error) {
+        echo "$error";
+      }
     }
     header('location: stock.php');
   }
@@ -57,7 +74,7 @@
             echo "<td>" . $stock['qty'] . "</td>";
             echo "<td><div class='btn-group' role='group'>";
             echo "<a href='stockbyid.php?sto_id=" . $stock['id'] . "' class='btn btn-primary'>View/Edit</a>";
-            echo "<a href='#' class='btn btn-danger'>Delete</a></td>";
+            echo "<input type='submit' name='del_stock_id_" . $stock['id'] . "' class='btn btn-danger' value='Delete' />";
             echo "</tr>";
             echo "</div>";
           }

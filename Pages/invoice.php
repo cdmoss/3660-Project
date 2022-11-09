@@ -1,15 +1,33 @@
 <?php include "../data/db.php" ?>
 
 <?php
-  if (isset($_POST['add_invoice'])) {
-      $db = Db::getInstance();
-      $result = $db->addInvoice($_POST['add_sto_name'], $_POST['add_sto_price']);
-      if (count($result->errors) > 0) {
-        foreach ($result->errors as $error) {
-          echo "$error";
+  if(!empty($_POST)) {
+    foreach ($_POST as $name => $val)
+    {
+      if (str_contains($name, 'del_invoice_id_')) {
+        $invoice_id = explode('_', $name);
+        $db = Db::getInstance();
+        $result = $db->deleteInvoice($invoice_id[3]);
+        if (count($result->errors) > 0) {
+            foreach ($result->errors as $error) {
+              echo "$error";
+            }
         }
+        header('location: invoice.php');
+      }
     }
-    //header('location: stock.php');
+  }
+
+  if (isset($_POST['add_invoice'])) {
+    echo $_POST['add_inv_cus'];
+    $db = Db::getInstance();
+    $result = $db->addInvoice($_POST['add_inv_lbl'], $_POST['add_inv_cus'], $_POST['add_inv_cleared']);
+    if (count($result->errors) > 0) {
+      foreach ($result->errors as $error) {
+        echo "$error";
+      }
+    }
+    //header('location: invoice.php');
   }
 ?>
 
@@ -56,7 +74,7 @@
             echo "<td>" . $invoices['cleared'] . "</td>";
             echo "<td><div class='btn-group' role='group'>";
             echo "<a href='customerbyid.php?inv_id=" . $invoices['id'] . "' class='btn btn-primary'>View/Edit</a>";
-            echo "<input type='submit' name='delCustomer' class='btn btn-danger' value='Delete' />";
+            echo "<input type='submit' name='del_invoice_id_" . $invoices['id'] . "' class='btn btn-danger' value='Delete' />";
             echo "</tr>";
             echo "</div>";
           }
@@ -80,16 +98,31 @@
           echo "<div class='modal-body'>";
           echo "<form method='POST'>";
             echo "<div class='form-group add-stock-modal'><label for='add_inv_lbl'>Label</label><input type='text' class='form-control' name='add_inv_lbl' /></div>";
-            echo "<div class='form-group'><label for='name='add_inv_cus'>Select Customer for Invoice</label></br><select class='form-control' style='width: 100%;' name='add_inv_cus' aria-label='Default select example'>
-            <option selected>...</option>
-            <option value='1'>One</option>
-          </select></div>";
+            echo "<div class='form-group'>";
+            echo "<label for='name='add_inv_cus'>Select Customer for Invoice</label></br>";
+            echo "<select class='form-control' style='width: 100%;' name='add_inv_cus' aria-label='Default select example'>";
+            echo "<option selected>...</option>";
+
+            $db = Db::getInstance();
+            $result = $db->getAll('customers');
+
+            if (count($result->errors) > 0) {
+              foreach ($result->errors as $error) {
+                echo "$error";
+              }
+            }
+            else {
+              while ($customers = $result->data->fetch()) {
+                echo "<option value='" . $customers['id'] . "'>" . $customers['name'] . ' - ' . $customers['email'] . "</option>";
+              }
+            }
+            echo "</select></div>";
             echo "<div class='form-group add-stock-modal'><label for='add_inv_cleared'>Cleared</label><input type='checkbox' class='form-control' name='add_inv_cleared' /></div>";
           echo "</div>";
           echo "<hr'>";
           echo "<div class='modal-footer'>";
             echo "<div class='btn-group add-stock-modal-footer mb-0'>";
-              echo "<input type='submit' class='btn btn-primary' name='invoiceAdd' value='Submit'>";
+              echo "<input type='submit' class='btn btn-primary' name='add_invoice' value='Submit'>";
               echo "<button type='button' class='btn btn-secondary' data-dismiss='modal'>Close</button>";
             echo "</div>";
             echo "</form>";

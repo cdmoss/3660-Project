@@ -1,15 +1,21 @@
 <?php include "../data/db.php" ?> 
 
 <?php 
-    if(isset($_POST['del_customer'])) {
-      $db = Db::getInstance();
-      $result = $db->deleteCustomer($_GET['cus_id']);
-      if (count($result->errors) > 0) {
-          foreach ($result->errors as $error) {
-            echo "$error";
-          }
+  if(!empty($_POST)) {
+    foreach ($_POST as $name => $val)
+    {
+      if (str_contains($name, 'del_customer_id_')) {
+        $cus_id = explode('_', $name);
+        $db = Db::getInstance();
+        $result = $db->deleteCustomer($cus_id[3]);
+        if (count($result->errors) > 0) {
+            foreach ($result->errors as $error) {
+              echo "$error";
+            }
+        }
+        header('location: customer.php');
       }
-      header('location: customer.php');
+    }
   }
 
   if(isset($_POST['add_customer'])) {
@@ -22,7 +28,7 @@
     }
     $_POST = array();
     header('location: customer.php');
-}
+  }
 ?>
 
 <!doctype html>
@@ -71,7 +77,7 @@
                 echo "<td>" . $customer['address'] . "</td>";
                 echo "<td><div class='btn-group' role='group'>";
                 echo "<a href='customerbyid.php?cus_id=" . $customer['id'] . "&cus_name=" . $customer['name'] . "' class='btn btn-primary'>View/Edit</a>";
-                echo "<input type='submit' name='del_customer' class='btn btn-danger' value='Delete' />";
+                echo "<input type='submit' name='del_customer_id_" . $customer['id'] . "' class='btn btn-danger' value='Delete' />";
                 echo "</tr>";
                 echo "</div>";
               }
