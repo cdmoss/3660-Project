@@ -137,7 +137,7 @@
               }
             }
             echo "</select></div>";
-            echo "<div class='form-group add-stock-modal'><label for='add_inv_cleared'>Cleared</label><input type='checkbox' class='form-control' name='add_inv_cleared' /></div>";
+            echo "<div class='form-group add-stock-modal'><label for='add_inv_cleared'>Cleared</label><input type='checkbox' style='width:9%;' class='form-control' name='add_inv_cleared' /></div>";
           echo "</div>";
           echo "<hr'>";
           echo "<div class='modal-footer'>";
