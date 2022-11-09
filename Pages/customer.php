@@ -1,5 +1,27 @@
 <?php include "../data/db.php" ?> 
 
+<?php 
+    if(isset($_POST['delCustomer'])) {
+      $db = Db::getInstance();
+      $result = $db->deleteCustomer($_GET['cus_id']);
+      if (count($result->errors) > 0) {
+          foreach ($result->errors as $error) {
+            echo "$error";
+          }
+      }
+  }
+
+  if(isset($_POST['addCustomer'])) {
+    $db = Db::getInstance();
+    $result = $db->addCustomer($_POST['add_cus_name'], $_POST['add_cus_email'], $_POST['add_cus_phone'], $_POST['add_cus_address']);
+    if (count($result->errors) > 0) {
+        foreach ($result->errors as $error) {
+          echo "$error";
+        }
+    }
+}
+?>
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -46,7 +68,7 @@
                 echo "<td>" . $customer['address'] . "</td>";
                 echo "<td><div class='btn-group' role='group'>";
                 echo "<a href='customerbyid.php?cus_id=" . $customer['id'] . "&cus_name=" . $customer['name'] . "' class='btn btn-primary'>View/Edit</a>";
-                echo "<a href='#' class='btn btn-danger'>Delete</a></td>";
+                echo "<input type='submit' name='delCustomer' class='btn btn-danger' value='Delete' />";
                 echo "</tr>";
                 echo "</div>";
               }
@@ -69,18 +91,18 @@
             echo "</div>";
             echo "<div class='modal-body'>";
 
-              echo "<div class='form-group add-customer-modal'><label for='add_cus_name'>Name</label><input type='text' class='form-control' name='add_cus_name' /></div>";
-              echo "<div class='form-group add-customer-modal'><label for='add_cus_phone'>Phone Number</label><input type='text' class='form-control' name='add_cus_phone' /></div>";
-              echo "<div class='form-group add-customer-modal'><label for='add_cus_email'>Email Address</label><input type='email' class='form-control' name='add_cus_email' /></div>";
-              echo "<div class='form-group add-customer-modal'><label for='add_cus_address'>Address</label><input type='text' class='form-control' name='add_cus_address' /></div>";
-
+              echo "<form method='POST'>";
+                echo "<div class='form-group add-customer-modal'><label for='add_cus_name'>Name</label><input type='text' class='form-control' name='add_cus_name' /></div>";
+                echo "<div class='form-group add-customer-modal'><label for='add_cus_phone'>Phone Number</label><input type='text' class='form-control' name='add_cus_phone' /></div>";
+                echo "<div class='form-group add-customer-modal'><label for='add_cus_email'>Email Address</label><input type='email' class='form-control' name='add_cus_email' /></div>";
+                echo "<div class='form-group add-customer-modal'><label for='add_cus_address'>Address</label><input type='text' class='form-control' name='add_cus_address' /></div>";
             echo "</div>";
-            echo "<hr'>";
             echo "<div class='modal-footer'>";
               echo "<div class='btn-group add-customer-modal-footer mb-0'>";
-                echo "<button type='button' class='btn btn-primary'>Submit</button>";
+                echo "<input type='submit' class='btn btn-primary' name='addCustomer' value='Submit' />";
                 echo "<button type='button' class='btn btn-secondary' data-dismiss='modal'>Close</button>";
               echo "</div>";
+              echo "</form>";
             echo "</div>
           </div>
         </div>

@@ -76,7 +76,7 @@
           echo "<hr'>";
           echo "<div class='modal-footer'>";
             echo "<div class='btn-group add-stock-modal-footer mb-0'>";
-              echo "<input type='submit' class='btn btn-primary' value='Submit'>";
+              echo "<input type='submit' class='btn btn-primary' name='stockAdd' value='Submit'>";
               echo "<button type='button' class='btn btn-secondary' data-dismiss='modal'>Close</button>";
             echo "</div>";
           echo "</div>
@@ -87,7 +87,7 @@
     </div>
 
     <?php
-    if (isset($_POST['submit'])) {
+    if (isset($_POST['stockAdd'])) {
         $db = Db::getInstance();
         $db->addNewStockItem($_POST['add_sto_name'], $_POST['add_sto_price'], $_POST['add_sto_qty']);
 

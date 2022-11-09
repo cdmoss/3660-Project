@@ -1,4 +1,4 @@
- <?php include "models/query-result.php" ?> 
+<?php include "models/query-result.php" ?> 
  <?php include "../Modules/logging.php" ?> 
  <?php include "validation.php" ?> 
 
@@ -36,11 +36,11 @@
             $result->errors[] = 'A name was not provided.';
         }
 
-        if (!validEmail($email) || is_null($email)) {
+        if (!Db::validEmail($email) || is_null($email)) {
             $result->errors[] = 'A valid email was not provided.';
         }
 
-        if (!validPhone($phone) || is_null($phone)) {
+        if (!Db::validPhone($phone) || is_null($phone)) {
             $result->errors[] = 'A valid phone number was not provided.';
         }
 
@@ -64,7 +64,7 @@
     }
 
     private function existingRecordInTableHasId($table, $id) {
-        if (!validTable($table)) {
+        if (!Db::validTable($table)) {
             return false;
         }
 
@@ -86,17 +86,17 @@
             $result->errors[] = 'A valid customer id was not provided.';
         }
         // validate that given customer exists
-        elseif (!existingRecordInTableHasId("customers", $customerId)) { 
+        elseif (!Db::existingRecordInTableHasId("customers", $customerId)) { 
             $result->errors[] = 'There are no customers with that id.';
         }
     }
 
     private function validateLineItem(&$result, $stockId, $invoiceId, $qty, $price) {
-        if (!existingRecordInTableHasId("stock", $stockId)) {
+        if (!Db::existingRecordInTableHasId("stock", $stockId)) {
             $result->errors[] = 'There are no stock items with that id.';
         }
 
-        if (!existingRecordInTableHasId("invoices", $invoiceId)) {
+        if (!Db::existingRecordInTableHasId("invoices", $invoiceId)) {
             $result->errors[] = 'There are no invoices with that id.';
         }
 
@@ -356,7 +356,7 @@
 
     // *** INVOICE **
     public function getInvoicesByCustomer($customerId) {
-        
+        $result = new QueryResult();
 
         if (count($result->errors) == 0) {
             try {
@@ -442,7 +442,7 @@
     public function addLineItem($stockId, $invoiceId, $label, $qty, $price) {
         $result = new QueryResult();
 
-        $this->validateLineItem($stockId, $invoiceId, $qty, $price);
+        $this->validateLineItem($stockId, $invoiceId, $label,  $qty, $price);
 
         if (count($result->errors) == 0) {
             try {
@@ -468,7 +468,7 @@
     public function deleteLineItem($stockId, $invoiceId) {
         $result = new QueryResult();
         if (is_null($stockId)) {
-            $result->errors[] = "A valid stock id was not provided";
+            $result->errors[] = "A c stock id was not provided";
         }
         if (is_null($invoiceId)) {
             $result->errors[] = "A valid invoice id was not provided";
