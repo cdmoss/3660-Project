@@ -245,7 +245,7 @@
         return $result;
     }
 
-    public function editCustomer($id, $name, $email, $phone, $address) {ok, so you are good?
+    public function editCustomer($id, $name, $email, $phone, $address) {
         $result = new QueryResult();
 
         $this->validateCustomer($result, $name, $email, $phone, $address);
