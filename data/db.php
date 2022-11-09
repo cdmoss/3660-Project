@@ -1,6 +1,5 @@
 <?php include "models/query-result.php" ?> 
- <?php include "../Modules/logging.php" ?> 
- <?php include "validation.php" ?> 
+<?php include "../Modules/logging.php" ?> 
 
 <?php
     define("SERVER_ERROR_MSG", "A server error occured. Reload the page and try again, or contact the administrator of this site.");

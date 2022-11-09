@@ -83,7 +83,7 @@
             echo "<td>" . $stock['current_price'] . "</td>";
             echo "<td>" . $stock['qty'] . "</td>";
             echo "<td><div class='btn-group' role='group'>";
-            echo "<a href='stockbyid.php?sto_id=" . $stock['id'] . "' class='btn btn-primary'>View/Edit</a>";
+            echo "<a href='stockbyid.php?stock_id=" . $stock['id'] . "&stock_name=" . $stock['name'] . "' class='btn btn-primary'>View/Edit</a>";
             echo "<input type='submit' name='del_stock_id_" . $stock['id'] . "' class='btn btn-danger' value='Delete' />";
             echo "</tr>";
             echo "</div>";
