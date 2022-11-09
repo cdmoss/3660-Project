@@ -10,7 +10,12 @@
         $result = $db->deleteStockItem($stock_id[3]);
         if (count($result->errors) > 0) {
             foreach ($result->errors as $error) {
+              echo "<div class='alert alert-danger alert-dismissible fade show' role='alert'>";
               echo "$error";
+              echo "<button type='button' class='close' data-dismiss='alert' aria-label='Close'>";
+                echo "<span aria-hidden='true'>&times;</span>";
+              echo "</button>
+            </div>";
             }
         }
         header('location: stock.php');
@@ -23,7 +28,12 @@
     $result = $db->addNewStockItem($_POST['add_sto_name'], $_POST['add_sto_price'], $_POST['add_sto_qty']);
     if (count($result->errors) > 0) {
       foreach ($result->errors as $error) {
+        echo "<div class='alert alert-danger alert-dismissible fade show' role='alert'>";
         echo "$error";
+        echo "<button type='button' class='close' data-dismiss='alert' aria-label='Close'>";
+          echo "<span aria-hidden='true'>&times;</span>";
+        echo "</button>
+      </div>";
       }
     }
     header('location: stock.php');

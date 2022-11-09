@@ -10,7 +10,12 @@
         $result = $db->deleteInvoice($invoice_id[3]);
         if (count($result->errors) > 0) {
             foreach ($result->errors as $error) {
+              echo "<div class='alert alert-danger alert-dismissible fade show' role='alert'>";
               echo "$error";
+              echo "<button type='button' class='close' data-dismiss='alert' aria-label='Close'>";
+                echo "<span aria-hidden='true'>&times;</span>";
+              echo "</button>
+            </div>";
             }
         }
         header('location: invoice.php');
@@ -19,12 +24,21 @@
   }
 
   if (isset($_POST['add_invoice'])) {
-    echo $_POST['add_inv_cus'];
+    if (empty($_POST['add_inv_cleared'])) {
+      $_POST['add_inv_cleared'] = 0;
+    } else if ($_POST['add_inv_cleared'] == 'on') {
+      $_POST['add_inv_cleared'] = 1;
+    }
     $db = Db::getInstance();
     $result = $db->addInvoice($_POST['add_inv_lbl'], $_POST['add_inv_cus'], $_POST['add_inv_cleared']);
     if (count($result->errors) > 0) {
       foreach ($result->errors as $error) {
+        echo "<div class='alert alert-danger alert-dismissible fade show' role='alert'>";
         echo "$error";
+        echo "<button type='button' class='close' data-dismiss='alert' aria-label='Close'>";
+          echo "<span aria-hidden='true'>&times;</span>";
+        echo "</button>
+      </div>";
       }
     }
     //header('location: invoice.php');
@@ -41,47 +55,53 @@
     <?php include "../Modules/sidebar.php" ?>
 
     <div class="container-fluid">
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addInvoiceModal">
-        <i class='fa-solid fa-plus'></i><span class='ml-1'>Add an Invoice</span>
-    </button>
-    <!-- Table -->
-    <table class="table mt-3">
-    <thead class="thead-dark">
-      <tr> 
-        <th>ID</th>
-        <th>Label</th>
-        <th>Created</th>
-        <th>Cleared</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <?php
-        $db = Db::getInstance();
-        $result = $db->getAll('invoices');
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addInvoiceModal">
+          <i class='fa-solid fa-plus'></i><span class='ml-1'>Add an Invoice</span>
+      </button>
+      <!-- Table -->
+      <form method="POST">
+        <table class="table mt-3">
+        <thead class="thead-dark">
+          <tr> 
+            <th>ID</th>
+            <th>Label</th>
+            <th>Created</th>
+            <th>Cleared</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <?php
+            $db = Db::getInstance();
+            $result = $db->getAll('invoices');
 
-        if (count($result->errors) > 0) {
-          foreach ($result->errors as $error) {
-            echo "$error";
-          }
-        }
-        else {
-          while ($invoices = $result->data->fetch()) {
-            echo "<tr>";
-            echo "<td>" . $invoices['id'] ."</td>";
-            echo "<td>" . $invoices['label'] . "</td>";
-            echo "<td>" . $invoices['created'] . "</td>";
-            echo "<td>" . $invoices['cleared'] . "</td>";
-            echo "<td><div class='btn-group' role='group'>";
-            echo "<a href='customerbyid.php?inv_id=" . $invoices['id'] . "' class='btn btn-primary'>View/Edit</a>";
-            echo "<input type='submit' name='del_invoice_id_" . $invoices['id'] . "' class='btn btn-danger' value='Delete' />";
-            echo "</tr>";
-            echo "</div>";
-          }
-        }
-      ?>
-    </tbody>
-    </table>
+            if (count($result->errors) > 0) {
+              foreach ($result->errors as $error) {
+                echo "$error";
+              }
+            }
+            else {
+              while ($invoices = $result->data->fetch()) {
+                echo "<tr>";
+                echo "<td>" . $invoices['id'] ."</td>";
+                echo "<td>" . $invoices['label'] . "</td>";
+                echo "<td>" . $invoices['created'] . "</td>";
+                if ($invoices['cleared'] == 1) {
+                  echo "<td><i class='fa-solid fa-check'></i></td>";
+                } elseif ($invoices['cleared'] == 0) {
+                  echo "<td><i class='fa-solid fa-x'></i></td>";
+                }
+                echo "<td><div class='btn-group' role='group'>";
+                echo "<a href='invoicebyid.php?inv_id=" . $invoices['id'] . "' class='btn btn-primary'>View/Edit</a>";
+                echo "<input type='submit' name='del_invoice_id_" . $invoices['id'] . "' class='btn btn-danger' value='Delete' />";
+                echo "</tr>";
+                echo "</div>";
+              }
+            }
+          ?>
+        </tbody>
+        </table>
+      </form>
     </div>
 
     <?php
@@ -113,7 +133,7 @@
             }
             else {
               while ($customers = $result->data->fetch()) {
-                echo "<option value='" . $customers['id'] . "'>" . $customers['name'] . ' - ' . $customers['email'] . "</option>";
+                echo "<option value='" . $customers['id'] . "'>Name: " . $customers['name'] . ' - Email: ' . $customers['email'] . "</option>";
               }
             }
             echo "</select></div>";
