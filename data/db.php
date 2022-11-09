@@ -69,7 +69,7 @@
         }
 
         $validateCustomerQuery = $this->pdo->prepare('select * from ' . $table . 'where id = :id');
-        $validateCustomerQuery->bindParam(':id', $customerId);
+        $validateCustomerQuery->bindParam(':id', $id);
         $validateCustomerQuery->execute();
 
         return $validateCustomerQuery->rowCount() > 0;
@@ -245,7 +245,7 @@
         return $result;
     }
 
-    public function editCustomer($id, $name, $email, $phone, $address) {
+    public function editCustomer($id, $name, $email, $phone, $address) {ok, so you are good?
         $result = new QueryResult();
 
         $this->validateCustomer($result, $name, $email, $phone, $address);
