@@ -68,7 +68,7 @@
             return false;
         }
 
-        $validateCustomerQuery = $this->pdo->prepare('select * from ' . $table . 'where id = :id');
+        $validateCustomerQuery = $this->pdo->prepare('select * from ' . $table . ' where id = :id');
         $validateCustomerQuery->bindParam(':id', $id);
         $validateCustomerQuery->execute();
 

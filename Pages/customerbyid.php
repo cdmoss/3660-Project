@@ -6,9 +6,15 @@
         $result = $db->deleteCustomer($_GET['cus_id']);
         if (count($result->errors) > 0) {
             foreach ($result->errors as $error) {
+              echo "<div class='alert alert-danger alert-dismissible fade show' role='alert'>";
               echo "$error";
+              echo "<button type='button' class='close' data-dismiss='alert' aria-label='Close'>";
+                echo "<span aria-hidden='true'>&times;</span>";
+              echo "</button>
+            </div>";
             }
         }
+        header('location: customer.php');
     }
 
 
@@ -17,9 +23,15 @@
         $result = $db->editCustomer($_POST['cusid'], $_POST['cusname'], $_POST['cusemail'], $_POST['cusphone'], $_POST['cusaddress']);
         if (count($result->errors) > 0) {
             foreach ($result->errors as $error) {
+              echo "<div class='alert alert-danger alert-dismissible fade show' role='alert'>";
               echo "$error";
+              echo "<button type='button' class='close' data-dismiss='alert' aria-label='Close'>";
+                echo "<span aria-hidden='true'>&times;</span>";
+              echo "</button>
+            </div>";
             }
         }
+        header('location: customerbyid.php?cus_id=' . $_POST['cusid'] . '&cus_name=' . $_POST['cusname'] .'');
     }
 
 ?>

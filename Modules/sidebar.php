@@ -21,13 +21,13 @@
             </div>
 
             <!-- Nav Item - Customer -->
-            <li class="nav-item ml-2 <?= $page == 'customer.php' ? 'active' : '' ?>"><a class="nav-link" href="customer.php"><i class="fa-solid fa-user fa-lg"></i><span class="ml-2">Customer</span></a></li>
+            <li class="nav-item ml-2 <?= $page == 'customer.php' ? 'active' : '' ?>"><a class="nav-link" href="customer.php"><i class="fa-solid fa-user fa-lg"></i><span class="ml-2">Customers</span></a></li>
 
             <!-- Nav Item - Stock -->
             <li class="nav-item ml-2 <?= $page == 'stock.php' ? 'active' : '' ?>"><a class="nav-link" href="stock.php"><i class="fa-solid fa-boxes-stacked"></i><span class="ml-2">Stock</span></a></li>
 
             <!-- Nav Item - Invoice -->
-            <li class="nav-item ml-2 <?= $page == 'invoice.php' ? 'active' : '' ?>"><a class="nav-link" href="invoice.php"><i class="fa-solid fa-file-invoice-dollar"></i><span class="ml-2">Invoice</span></a></li>
+            <li class="nav-item ml-2 <?= $page == 'invoice.php' ? 'active' : '' ?>"><a class="nav-link" href="invoice.php"><i class="fa-solid fa-file-invoice-dollar"></i><span class="ml-2">Invoices</span></a></li>
 
         </ul>
         <!-- End of Sidebar -->
