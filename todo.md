@@ -1,5 +1,4 @@
 #### Brendan
-- [ ] Fix margins on 'Add customer/stock' buttons
 - [ ] Add invoice table into the customerbyid page
 - [ ] Remove collapsable headers, and change to side by side for customerbyid
 - [ ] Add lineitems to invoicebyid page (not created yet)

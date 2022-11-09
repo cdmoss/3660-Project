@@ -1,7 +1,7 @@
 <?php include "../data/db.php" ?> 
 
 <?php 
-    if(isset($_POST['delCustomer'])) {
+    if(isset($_POST['del_customer'])) {
       $db = Db::getInstance();
       $result = $db->deleteCustomer($_GET['cus_id']);
       if (count($result->errors) > 0) {
@@ -12,7 +12,7 @@
       header('location: customer.php');
   }
 
-  if(isset($_POST['addCustomer'])) {
+  if(isset($_POST['add_customer'])) {
     $db = Db::getInstance();
     $result = $db->addCustomer($_POST['add_cus_name'], $_POST['add_cus_email'], $_POST['add_cus_phone'], $_POST['add_cus_address']);
     if (count($result->errors) > 0) {
@@ -35,12 +35,12 @@
     <?php include "../Modules/sidebar.php" ?>
 
     <div class="container-fluid">
-      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addCustomerModal">
         <i class='fa-solid fa-plus'></i><span class='ml-1'>Add a Customer</span>
       </button>
       <!-- Table -->
       <form method="POST">
-        <table class="table mt-5">
+        <table class="table mt-3">
         <thead class="thead-dark">
           <tr>
             <th>ID</th>
@@ -71,7 +71,7 @@
                 echo "<td>" . $customer['address'] . "</td>";
                 echo "<td><div class='btn-group' role='group'>";
                 echo "<a href='customerbyid.php?cus_id=" . $customer['id'] . "&cus_name=" . $customer['name'] . "' class='btn btn-primary'>View/Edit</a>";
-                echo "<input type='submit' name='delCustomer' class='btn btn-danger' value='Delete' />";
+                echo "<input type='submit' name='del_customer' class='btn btn-danger' value='Delete' />";
                 echo "</tr>";
                 echo "</div>";
               }
@@ -83,11 +83,11 @@
 
     <?php
       echo "<!-- Add Customer Modal -->";
-      echo "<div class='modal fade' id='exampleModal' tabindex='-1' role='dialog' aria-labelledby='exampleModalLabel' aria-hidden='true'>";
+      echo "<div class='modal fade' id='addCustomerModal' tabindex='-1' role='dialog' aria-labelledby='addCustomerModalLabel' aria-hidden='true'>";
         echo "<div class='modal-dialog' role='document'>";
           echo "<div class='modal-content'>";
             echo "<div class='modal-header'>";
-              echo "<h5 class='modal-title' id='exampleModalLabel'>Add Customer</h5>";
+              echo "<h5 class='modal-title' id='addCustomerModalLabel'>Add Customer</h5>";
               echo "<button type='button' class='close' data-dismiss='modal' aria-label='Close'>";
                 echo "<span aria-hidden='true'>&times;</span>";
               echo "</button>";
@@ -102,7 +102,7 @@
             echo "</div>";
             echo "<div class='modal-footer'>";
               echo "<div class='btn-group add-customer-modal-footer mb-0'>";
-                echo "<input type='submit' class='btn btn-primary' name='addCustomer' value='Submit' />";
+                echo "<input type='submit' class='btn btn-primary' name='add_customer' value='Submit' />";
                 echo "<button type='button' class='btn btn-secondary' data-dismiss='modal'>Close</button>";
               echo "</div>";
               echo "</form>";

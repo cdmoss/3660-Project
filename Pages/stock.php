@@ -1,7 +1,7 @@
 <?php include "../data/db.php" ?>
 
 <?php
-  if (isset($_POST['stockAdd'])) {
+  if (isset($_POST['add_stock'])) {
       $db = Db::getInstance();
       $result = $db->addNewStockItem($_POST['add_sto_name'], $_POST['add_sto_price'], $_POST['add_sto_qty']);
       if (count($result->errors) > 0) {
@@ -23,12 +23,12 @@
     <?php include "../Modules/sidebar.php" ?>
 
     <div class="container-fluid">
-      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addStockModal">
         <i class='fa-solid fa-plus'></i><span class='ml-1'>Add a Stock Item</span>
       </button>
     <!-- Table -->
     <form method="POST">
-    <table class="table mt-5">
+    <table class="table mt-3">
     <thead class="thead-dark">
       <tr>
         <th>ID</th>
@@ -56,7 +56,7 @@
             echo "<td>" . $stock['current_price'] . "</td>";
             echo "<td>" . $stock['qty'] . "</td>";
             echo "<td><div class='btn-group' role='group'>";
-            echo "<a href='stockbyid.php?sto_id=" . $stock['id'] . "&sto_name=" . $stock['name'] . "' class='btn btn-primary'>View/Edit</a>";
+            echo "<a href='stockbyid.php?sto_id=" . $stock['id'] . "' class='btn btn-primary'>View/Edit</a>";
             echo "<a href='#' class='btn btn-danger'>Delete</a></td>";
             echo "</tr>";
             echo "</div>";
@@ -67,14 +67,13 @@
     </table>
   </form>
 
-  <form method="post">
   <?php
     echo "<!-- Add Stock Modal -->";
-    echo "<div class='modal fade' id='exampleModal' tabindex='-1' role='dialog' aria-labelledby='exampleModalLabel' aria-hidden='true'>";
+    echo "<div class='modal fade' id='addStockModal' tabindex='-1' role='dialog' aria-labelledby='addStockModalLabel' aria-hidden='true'>";
       echo "<div class='modal-dialog' role='document'>";
         echo "<div class='modal-content'>";
           echo "<div class='modal-header'>";
-            echo "<h5 class='modal-title' id='exampleModalLabel'>Add stock</h5>";
+            echo "<h5 class='modal-title' id='addStockModalLabel'>Add Stock Item</h5>";
             echo "<button type='button' class='close' data-dismiss='modal' aria-label='Close'>";
               echo "<span aria-hidden='true'>&times;</span>";
             echo "</button>";
@@ -88,7 +87,7 @@
           echo "<hr'>";
           echo "<div class='modal-footer'>";
             echo "<div class='btn-group add-stock-modal-footer mb-0'>";
-              echo "<input type='submit' class='btn btn-primary' name='stockAdd' value='Submit'>";
+              echo "<input type='submit' class='btn btn-primary' name='add_stock' value='Submit'>";
               echo "<button type='button' class='btn btn-secondary' data-dismiss='modal'>Close</button>";
             echo "</div>";
             echo "</form>";
