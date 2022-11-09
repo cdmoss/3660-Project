@@ -19,7 +19,7 @@ CREATE TABLE stock (
 CREATE TABLE invoices (
 	id bigint unsigned default(uuid_short()) primary key,
 	label varchar(250) NOT NULL,
-	created date NOT NULL,
+	created date DEFAULT CURRENT_TIMESTAMP,
 	cleared BOOLEAN NOT NULL,
 	customer_id bigint unsigned,
     CONSTRAINT fk_invoice_customer FOREIGN KEY (customer_id) REFERENCES customers (id) ON DELETE SET NULL
