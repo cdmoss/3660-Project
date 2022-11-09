@@ -385,7 +385,8 @@
                 $result->data = $this->pdo->prepare($sql);
                 $result->data->bindParam(':label', $label);
                 $result->data->bindParam(':customer_id', $customerId);
-                if (isset($cleared)) $result->data->bindParam(':cleared', $cleared);
+                $_cleared = isset($cleared) ? $cleared : false;
+                $result->data->bindParam(':cleared', $cleared);
                 
                 $result->data->execute();
             }
