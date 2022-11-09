@@ -9,6 +9,7 @@
           echo "$error";
         }
     }
+    header('location: stock.php');
   }
 ?>
 
@@ -83,7 +84,6 @@
             echo "<div class='form-group add-stock-modal'><label for='add_sto_name'>Name</label><input type='text' class='form-control' name='add_sto_name' /></div>";
             echo "<div class='form-group add-stock-modal'><label for='add_sto_price'>Price</label><input type='text' class='form-control' name='add_sto_price' /></div>";
             echo "<div class='form-group add-stock-modal'><label for='add_sto_qty'>Quantity</label><input type='text' class='form-control' name='add_sto_qty' /></div>";
-
           echo "</div>";
           echo "<hr'>";
           echo "<div class='modal-footer'>";

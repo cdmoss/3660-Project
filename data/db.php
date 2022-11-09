@@ -58,7 +58,7 @@
             $result->errors[] = 'A valid price was not provided.';
         }
 
-        if (!is_null($qty) || !is_int($qty) || $qty < 0) {
+        if (is_null($qty) || !is_numeric($qty) || $qty < 0) {
             $result->errors[] = 'A valid quantity was not provided.';
         }
     }

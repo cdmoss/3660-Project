@@ -9,6 +9,7 @@
             echo "$error";
           }
       }
+      header('location: customer.php');
   }
 
   if(isset($_POST['addCustomer'])) {
@@ -19,9 +20,8 @@
           echo "$error";
         }
     }
-
-    // set the var back to null
-    $_POST['addCustomer'] = null;
+    $_POST = array();
+    header('location: customer.php');
 }
 ?>
 
