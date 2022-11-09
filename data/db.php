@@ -54,11 +54,11 @@
             $result->errors[] = 'A name was not provided.';
         }
 
-        if (is_null($current_price) || !is_float($current_price) || $current_price < 0) {
+        if (is_null($current_price) || !is_numeric($current_price) || $current_price < 0) {
             $result->errors[] = 'A valid price was not provided.';
         }
 
-        if (!is_null($qty) || !is_int($qty) || $qty < 0) {
+        if (is_null($qty) || !is_numeric($qty) || $qty < 0) {
             $result->errors[] = 'A valid quantity was not provided.';
         }
     }

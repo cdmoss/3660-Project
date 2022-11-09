@@ -9,6 +9,7 @@
             echo "$error";
           }
       }
+      header('location: customer.php');
   }
 
   if(isset($_POST['addCustomer'])) {
@@ -19,6 +20,8 @@
           echo "$error";
         }
     }
+    $_POST = array();
+    header('location: customer.php');
 }
 ?>
 
