@@ -468,7 +468,7 @@
     public function deleteLineItem($stockId, $invoiceId) {
         $result = new QueryResult();
         if (is_null($stockId)) {
-            $result->errors[] = "A valid stock id was not provided";
+            $result->errors[] = "A c stock id was not provided";
         }
         if (is_null($invoiceId)) {
             $result->errors[] = "A valid invoice id was not provided";
