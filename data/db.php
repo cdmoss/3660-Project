@@ -54,7 +54,7 @@
             $result->errors[] = 'A name was not provided.';
         }
 
-        if (is_null($current_price) || !is_float($current_price) || $current_price < 0) {
+        if (is_null($current_price) || !is_numeric($current_price) || $current_price < 0) {
             $result->errors[] = 'A valid price was not provided.';
         }
 
@@ -374,17 +374,19 @@
         return $result;
     }
 
-    public function addInvoice($label, $customerId) {
+    public function addInvoice($label, $customerId, $cleared) {
         $result = new QueryResult();
 
         $this->validateInvoice($result, $label, $customerId);
 
         if (count($result->errors) == 0) {
             try {
-                $sql = "insert into invoices (label, customer_id) values (:label, :customer_id)";
+                $sql = "insert into invoices (label, customer_id, cleared) values (:label, :customer_id, :cleared)";
                 $result->data = $this->pdo->prepare($sql);
                 $result->data->bindParam(':label', $label);
                 $result->data->bindParam(':customer_id', $customerId);
+                if (isset($cleared)) $result->data->bindParam(':cleared', $cleared);
+                
                 $result->data->execute();
             }
             catch (PDOException $e) {

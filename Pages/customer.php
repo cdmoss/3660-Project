@@ -19,6 +19,9 @@
           echo "$error";
         }
     }
+
+    // set the var back to null
+    $_POST['addCustomer'] = null;
 }
 ?>
 
