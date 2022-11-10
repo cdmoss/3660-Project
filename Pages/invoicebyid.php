@@ -86,7 +86,7 @@ if (count($result->errors) > 0) {
             } else {
                 echo "<div class='form-group invoiceById'><label for='invoice_cleared'>Cleared</label><input type='checkbox' style='width:9%;' class='form-control' name='invoice_cleared' /></div>";
             }
-            echo "<div class='btn-group inputById' role='group'>";
+            echo "<div class='btn-group invoiceById' role='group'>";
             echo "<input type='submit' name='edit_invoice' class='btn btn-warning' value='Save Changes' />";
             echo "<input type='submit' name='del_invoice' class='btn btn-danger' value='Delete' />";
             echo "<a href='" . $_SERVER['HTTP_REFERER'] . "' class='btn btn-primary'>Go Back</a>";
