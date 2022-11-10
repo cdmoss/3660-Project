@@ -103,7 +103,7 @@ if (isset($_POST['add_stock'])) {
     echo "</div>";
     echo "<hr'>";
     echo "<div class='modal-footer'>";
-    echo "<div class='btn-group add-stock-modal-footer mb-0'>";
+    echo "<div class='btn-group add-modal-footer mb-0'>";
     echo "<input type='submit' class='btn btn-primary' name='add_stock' value='Submit'>";
     echo "<button type='button' class='btn btn-secondary' data-dismiss='modal'>Close</button>";
     echo "</div>";

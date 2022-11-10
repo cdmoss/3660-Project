@@ -107,7 +107,7 @@ if (isset($_POST['add_customer'])) {
     echo "<div class='form-group add-customer-modal'><label for='add_cus_address'>Address</label><input type='text' class='form-control' name='add_cus_address' /></div>";
     echo "</div>";
     echo "<div class='modal-footer'>";
-    echo "<div class='btn-group add-customer-modal-footer mb-0'>";
+    echo "<div class='btn-group add-modal-footer mb-0'>";
     echo "<input type='submit' class='btn btn-primary' name='add_customer' value='Submit' />";
     echo "<button type='button' class='btn btn-secondary' data-dismiss='modal'>Close</button>";
     echo "</div>";

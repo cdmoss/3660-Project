@@ -57,15 +57,16 @@ if (count($result->errors) > 0) {
 } else {
   while ($customer = $result->data->fetch()) {
   echo "<div style='display:block;width:95%;margin-left:auto;margin-right:auto;'>";
-    echo "<div id='customer_information' style='width:20%;float:left;'>";
+    echo "<div id='customer_information' style='width:25%;float:left;'>";
       echo "<form method='POST'>";
         echo "<h5>Customer Information</h5>";
-        echo "<div class='form-group inputById'><label for='cus_id'>Customer ID</label><input type='text' class='form-control' name='cus_id' value='" . $customer['id'] . "' readonly /></div>";
-        echo "<div class='form-group inputById'><label for='cus_name'>Name</label><input type='text' class='form-control' name='cus_name' value='" . $customer['name'] . "' /></div>";
-        echo "<div class='form-group inputById'><label for='cus_phone'>Phone Number</label><input type='text' class='form-control' name='cus_phone' value='" . $customer['phone'] . "' /></div>";
-        echo "<div class='form-group inputById'><label for='cus_email'>Email Address</label><input type='email' class='form-control' name='cus_email' value='" . $customer['email'] . "' /></div>";
-        echo "<div class='form-group inputById'><label for='cus_address'>Address</label><input type='text' class='form-control' name='cus_address' value='" . $customer['address'] . "' /></div>";
-        echo "<div class='btn-group inputById' role='group'>";
+        echo "<hr>";
+        echo "<div class='form-group cusById'><label for='cus_id'>Customer ID</label><input type='text' class='form-control' name='cus_id' value='" . $customer['id'] . "' readonly /></div>";
+        echo "<div class='form-group cusById'><label for='cus_name'>Name</label><input type='text' class='form-control' name='cus_name' value='" . $customer['name'] . "' /></div>";
+        echo "<div class='form-group cusById'><label for='cus_phone'>Phone Number</label><input type='text' class='form-control' name='cus_phone' value='" . $customer['phone'] . "' /></div>";
+        echo "<div class='form-group cusById'><label for='cus_email'>Email Address</label><input type='email' class='form-control' name='cus_email' value='" . $customer['email'] . "' /></div>";
+        echo "<div class='form-group cusById'><label for='cus_address'>Address</label><input type='text' class='form-control' name='cus_address' value='" . $customer['address'] . "' /></div>";
+        echo "<div class='btn-group cusById' role='group'>";
         echo "<input type='submit' name='edit_customer' class='btn btn-warning' value='Save Changes' />";
         echo "<input type='submit' name='del_customer' class='btn btn-danger' value='Delete' />";
         echo "<a href='customer.php' class='btn btn-primary'>Go Back</a>";
@@ -73,7 +74,7 @@ if (count($result->errors) > 0) {
     echo "</div>";
     echo "</div>";
 
-    echo "<div id='invoice_information' style='width:80%;float:left;'>";
+    echo "<div id='invoice_information' style='width:75%;float:left;'>";
       $db = Db::getInstance();
       $result = $db->getInvoicesByCustomer($_GET['cus_id']);
 
@@ -84,6 +85,7 @@ if (count($result->errors) > 0) {
       } else {
         echo "<form method='POST'>
           <h5>Customer Invoices</h5>
+          <hr>
           <table class='table mt-0'>
             <thead class='thead-dark'>
               <tr> 

@@ -1,7 +1,20 @@
-.inputById {
+.cusById {
     min-width: 250px; 
-    width: 70%; 
+    width: 80%; 
     margin-left: .5%;
+}
+
+.stockById {
+    min-width: 250px; 
+    width: 20%; 
+    margin-left: 0%;
+}
+
+.invoiceById {
+    min-width: 250px; 
+    width: 80%; 
+    margin-left: 0%;
+    padding-left: 0%;
 }
 
 .add-customer-modal {
@@ -10,7 +23,7 @@
     margin-left: 2%;
 }
 
-.add-customer-modal-footer {
+.add-modal-footer {
     min-width: 250px; 
     width: 15%; 
     margin-left: auto;
