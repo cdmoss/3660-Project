@@ -3,7 +3,7 @@
 <?php 
     if(isset($_POST['del_invoice'])) {
         $db = Db::getInstance();
-        $result = $db->deleteInvoice($_GET['invoice_id']);
+        $result = $db->delete('invoices', $_GET['invoice_id']);
         if (count($result->errors) > 0) {
             foreach ($result->errors as $error) {
               echo "<div class='alert alert-danger alert-dismissible fade show' role='alert'>";

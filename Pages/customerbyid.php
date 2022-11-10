@@ -3,7 +3,7 @@
 <?php 
     if(isset($_POST['del_customer'])) {
         $db = Db::getInstance();
-        $result = $db->deleteCustomer($_GET['cus_id']);
+        $result = $db->delete('customers', $_GET['cus_id']);
         if (count($result->errors) > 0) {
             foreach ($result->errors as $error) {
               echo "<div class='alert alert-danger alert-dismissible fade show' role='alert'>";

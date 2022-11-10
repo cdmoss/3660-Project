@@ -7,7 +7,7 @@
       if (str_contains($name, 'del_stock_id_')) {
         $stock_id = explode('_', $name);
         $db = Db::getInstance();
-        $result = $db->deleteStockItem($stock_id[3]);
+        $result = $db->delete('stock', $stock_id[3]);
         if (count($result->errors) > 0) {
             foreach ($result->errors as $error) {
               echo "<div class='alert alert-danger alert-dismissible fade show' role='alert'>";

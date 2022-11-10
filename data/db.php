@@ -205,7 +205,7 @@
         }
 
         try {
-            $sql = "delete from " . $table . "where id = :id";
+            $sql = "delete from " . $table . " where id = :id";
             $result->data = $this->pdo->prepare($sql);
             $result->data->bindParam(':id', $id);
             $result->data->execute();

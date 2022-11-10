@@ -7,7 +7,7 @@
       if (str_contains($name, 'del_customer_id_')) {
         $cus_id = explode('_', $name);
         $db = Db::getInstance();
-        $result = $db->deleteCustomer($cus_id[3]);
+        $result = $db->delete('customers', $cus_id[3]);
         if (count($result->errors) > 0) {
             foreach ($result->errors as $error) {
               echo "<div class='alert alert-danger alert-dismissible fade show' role='alert'>";
