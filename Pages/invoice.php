@@ -92,7 +92,7 @@
                   echo "<td><i class='fa-solid fa-x'></i></td>";
                 }
                 echo "<td><div class='btn-group' role='group'>";
-                echo "<a href='invoicebyid.php?inv_id=" . $invoices['id'] . "' class='btn btn-primary'>View/Edit</a>";
+                echo "<a href='invoicebyid.php?invoice_id=" . $invoices['id'] . "' class='btn btn-primary'>View/Edit</a>";
                 echo "<input type='submit' name='del_invoice_id_" . $invoices['id'] . "' class='btn btn-danger' value='Delete' />";
                 echo "</tr>";
                 echo "</div>";

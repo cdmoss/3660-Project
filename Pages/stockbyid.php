@@ -14,7 +14,7 @@
             </div>";
             }
         }
-        header('location: customer.php');
+        header('location: stock.php');
     }
 
 
@@ -31,7 +31,7 @@
             </div>";
             }
         }
-        header('location: stock.php?stock_id=' . $_POST['stock_id'] . '&stock_name=' . $_POST['stock_name'] .'');
+        header('location: stockbyid.php?stock_id=' . $_POST['stock_id'] . '&stock_name=' . $_POST['stock_name'] .'');
     }
 
 ?>
@@ -63,11 +63,11 @@ else {
         echo "<div id='collapseOne' class='collapse show' aria-labelledby='headingOne'>";
         echo "<div class='card-body'>";
         echo "<form method='POST'>";
-            echo "<div class='form-group cusbyidInput'><label for='stock_id'>Stock ID</label><input type='text' class='form-control' name='stock_id' value='" . $stock['id'] . "' readonly /></div>";
-            echo "<div class='form-group cusbyidInput'><label for='stock_name'>Name</label><input type='text' class='form-control' name='stock_name' value='" . $stock['name'] . "' /></div>";
-            echo "<div class='form-group cusbyidInput'><label for='stock_cur_price'>Current Price</label><input type='text' class='form-control' name='stock_cur_price' value='" . $stock['current_price'] . "' /></div>";
-            echo "<div class='form-group cusbyidInput'><label for='stock_qty'>Quantity</label><input type='email' class='form-control' name='stock_qty' value='" . $stock['qty'] . "' /></div>";
-            echo "<div class='btn-group cusbyidInput' role='group'>";
+            echo "<div class='form-group inputById'><label for='stock_id'>Stock ID</label><input type='text' class='form-control' name='stock_id' value='" . $stock['id'] . "' readonly /></div>";
+            echo "<div class='form-group inputById'><label for='stock_name'>Name</label><input type='text' class='form-control' name='stock_name' value='" . $stock['name'] . "' /></div>";
+            echo "<div class='form-group inputById'><label for='stock_cur_price'>Current Price</label><input type='text' class='form-control' name='stock_cur_price' value='" . $stock['current_price'] . "' /></div>";
+            echo "<div class='form-group inputById'><label for='stock_qty'>Quantity</label><input type='text' class='form-control' name='stock_qty' value='" . $stock['qty'] . "' /></div>";
+            echo "<div class='btn-group inputById' role='group'>";
             echo "<input type='submit' name='edit_stock' class='btn btn-warning' value='Save Changes' />";
             echo "<input type='submit' name='del_stock' class='btn btn-danger' value='Delete' />";
             echo "<a href='stock.php' class='btn btn-primary'>Go Back</a>";

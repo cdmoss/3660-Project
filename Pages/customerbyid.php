@@ -1,7 +1,7 @@
 <?php include "../data/db.php" ?>
 
 <?php 
-    if(isset($_POST['delCustomer'])) {
+    if(isset($_POST['del_customer'])) {
         $db = Db::getInstance();
         $result = $db->deleteCustomer($_GET['cus_id']);
         if (count($result->errors) > 0) {
@@ -18,9 +18,9 @@
     }
 
 
-    if(isset($_POST['editCustomer'])) {
+    if(isset($_POST['edit_customer'])) {
         $db = Db::getInstance();
-        $result = $db->editCustomer($_POST['cusid'], $_POST['cusname'], $_POST['cusemail'], $_POST['cusphone'], $_POST['cusaddress']);
+        $result = $db->editCustomer($_POST['cus_id'], $_POST['cus_name'], $_POST['cus_email'], $_POST['cus_phone'], $_POST['cus_address']);
         if (count($result->errors) > 0) {
             foreach ($result->errors as $error) {
               echo "<div class='alert alert-danger alert-dismissible fade show' role='alert'>";
@@ -31,7 +31,7 @@
             </div>";
             }
         }
-        header('location: customerbyid.php?cus_id=' . $_POST['cusid'] . '&cus_name=' . $_POST['cusname'] .'');
+        header('location: customerbyid.php?cus_id=' . $_POST['cus_id'] . '&cus_name=' . $_POST['cus_name'] .'');
     }
 
 ?>
@@ -45,7 +45,12 @@ $result = $db->getSingleById('customers', $_GET['cus_id']);
 
 if (count($result->errors) > 0) {
     foreach ($result->errors as $error) {
-        echo "$error";
+      echo "<div class='alert alert-danger alert-dismissible fade show' role='alert'>";
+      echo "$error";
+      echo "<button type='button' class='close' data-dismiss='alert' aria-label='Close'>";
+        echo "<span aria-hidden='true'>&times;</span>";
+      echo "</button>
+    </div>";
     }
 }
 else {
@@ -63,14 +68,14 @@ else {
         echo "<div id='collapseOne' class='collapse show' aria-labelledby='headingOne'>";
         echo "<div class='card-body'>";
         echo "<form method='POST'>";
-            echo "<div class='form-group cusbyidInput'><label for='cusid'>Customer ID</label><input type='text' class='form-control' name='cusid' value='" . $customer['id'] . "' readonly /></div>";
-            echo "<div class='form-group cusbyidInput'><label for='cusname'>Name</label><input type='text' class='form-control' name='cusname' value='" . $customer['name'] . "' /></div>";
-            echo "<div class='form-group cusbyidInput'><label for='cusphone'>Phone Number</label><input type='text' class='form-control' name='cusphone' value='" . $customer['phone'] . "' /></div>";
-            echo "<div class='form-group cusbyidInput'><label for='cusemail'>Email Address</label><input type='email' class='form-control' name='cusemail' value='" . $customer['email'] . "' /></div>";
-            echo "<div class='form-group cusbyidInput'><label for='cusaddress'>Address</label><input type='text' class='form-control' name='cusaddress' value='" . $customer['address'] . "' /></div>";
-            echo "<div class='btn-group cusbyidInput' role='group'>";
-            echo "<input type='submit' name='editCustomer' class='btn btn-warning' value='Save Changes' />";
-            echo "<input type='submit' name='delCustomer' class='btn btn-danger' value='Delete' />";
+            echo "<div class='form-group inputById'><label for='cus_id'>Customer ID</label><input type='text' class='form-control' name='cus_id' value='" . $customer['id'] . "' readonly /></div>";
+            echo "<div class='form-group inputById'><label for='cus_name'>Name</label><input type='text' class='form-control' name='cus_name' value='" . $customer['name'] . "' /></div>";
+            echo "<div class='form-group inputById'><label for='cus_phone'>Phone Number</label><input type='text' class='form-control' name='cus_phone' value='" . $customer['phone'] . "' /></div>";
+            echo "<div class='form-group inputById'><label for='cus_email'>Email Address</label><input type='email' class='form-control' name='cus_email' value='" . $customer['email'] . "' /></div>";
+            echo "<div class='form-group inputById'><label for='cus_address'>Address</label><input type='text' class='form-control' name='cus_address' value='" . $customer['address'] . "' /></div>";
+            echo "<div class='btn-group inputById' role='group'>";
+            echo "<input type='submit' name='edit_customer' class='btn btn-warning' value='Save Changes' />";
+            echo "<input type='submit' name='del_customer' class='btn btn-danger' value='Delete' />";
             echo "<a href='customer.php' class='btn btn-primary'>Go Back</a>";
             echo "</div>";
             echo "</form>";

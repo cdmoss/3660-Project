@@ -324,6 +324,7 @@
                 $result->data->bindParam(':name', $name);
                 $result->data->bindParam(':current_price', $current_price);
                 $result->data->bindParam(':qty', $qty);
+                $result->data->bindParam(':id', $id);
                 $result->data->execute();
             }
             catch (PDOException $e) {

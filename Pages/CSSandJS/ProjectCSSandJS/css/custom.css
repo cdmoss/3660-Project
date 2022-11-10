@@ -1,7 +1,7 @@
-.cusbyidInput {
+.inputById {
     min-width: 250px; 
     width: 25%; 
-    margin-left: 2%;
+    margin-left: .5%;
 }
 
 .add-customer-modal {
