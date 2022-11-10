@@ -442,6 +442,26 @@
     // *** END INVOICE ***
 
     // *** LINE ITEMS ***
+
+    public function getLineItemByInvoice($invoiceId) {
+        $result = new QueryResult();
+
+        if (count($result->errors) == 0) {
+            try {
+                $sql = "select * from lineitems where invoice_id = :invoice_id";
+                $result->data = $this->pdo->prepare($sql);
+                $result->data->bindParam(':invoice_id', $invoiceId);
+                $result->data->execute();
+            }
+            catch (PDOException $e) {
+                throw new PDOException($e->getMessage(), (int)$e->getCode());
+                $result->errors[] = SERVER_ERROR_MSG;
+            }
+        }
+
+        return $result;
+    }
+
     public function addLineItem($stockId, $invoiceId, $label, $qty, $price) {
         $result = new QueryResult();
 
