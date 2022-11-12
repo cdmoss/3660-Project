@@ -39,6 +39,21 @@ if (isset($_POST['add_lineitem'])) {
   }
 }
 
+if (!empty($_POST)) {
+  foreach ($_POST as $name => $val) {
+    if (str_contains($name, 'del_lineitem_id_')) {
+      $lineitem_id = explode('_', $name);
+      $db = Db::getInstance();
+      $result = $db->deleteLineItem($lineitem_id[3][0], $lineitem_id[3][1]);
+      if (count($result->errors) > 0) {
+        foreach ($result->errors as $error) {
+          include "../Modules/error.php";
+        }
+      }
+    }
+  }
+}
+
 ?>
 
 <!-- Sidebar -->
@@ -140,7 +155,7 @@ if (count($result->errors) > 0) {
                     echo "<td>" . $lineitems['price'] . "</td>";
                     echo "<td><div class='btn-group' role='group'>";
                     echo "<a href='invoicebyid.php?invoice_id=" . $lineitems['invoice_id'] . "' class='btn btn-primary'>View/Edit</a>";
-                    echo "<input type='submit' name='del_invoice_id_" . $lineitems['invoice_id'] . "' class='btn btn-danger' value='Delete' />";
+                    echo "<input type='submit' name='del_lineitem_id_" . $lineitems['stock_id'] . $lineitems['invoice_id'] . "' class='btn btn-danger' value='Delete' />";
                     echo "</tr>";
                     echo "</div>";
                 }
