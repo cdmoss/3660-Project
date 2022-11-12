@@ -29,6 +29,16 @@ if (isset($_POST['edit_invoice'])) {
     header('location: invoicebyid.php?invoice_id=' . $_POST['invoice_id'] . '');
 }
 
+if (isset($_POST['add_lineitem'])) {
+  $db = Db::getInstance();
+  $result = $db->addLineItem($_POST['add_li_sto'], $_GET['invoice_id'], $_POST['add_li_notes'], intval($_POST['add_li_qty']), floatval($_POST['add_li_price']));
+  if (count($result->errors) > 0) {
+    foreach ($result->errors as $error) {
+      include "../Modules/error.php";
+    }
+  }
+}
+
 ?>
 
 <!-- Sidebar -->
@@ -89,7 +99,7 @@ if (count($result->errors) > 0) {
             echo "<div class='btn-group invoiceById' role='group'>";
             echo "<input type='submit' name='edit_invoice' class='btn btn-warning' value='Save Changes' />";
             echo "<input type='submit' name='del_invoice' class='btn btn-danger' value='Delete' />";
-            echo "<a href='" . $_SERVER['HTTP_REFERER'] . "' class='btn btn-primary'>Go Back</a>";
+            echo "<a href='invoice.php' class='btn btn-primary'>Go Back</a>";
             echo "</div>";
             echo "</form>";
         echo "</div>";
@@ -104,11 +114,14 @@ if (count($result->errors) > 0) {
                 }
             } else {
             echo "<h5>Invoice Line Items</h5>";
+            echo "<button type='button' class='btn btn-primary' data-toggle='modal' data-target='#addLineItemModal'>
+                  <i class='fa-solid fa-plus'></i><span class='ml-1'>Add a Line Item</span>
+                </button>";
             echo "<hr>";
             echo "<form method='POST'>
             <table class='table mt-'>
             <thead class='thead-dark'>
-            <tr> 
+            <tr>
                 <th>Stock ID</th>
                 <th>Invoice ID</th>
                 <th>Label</th>
@@ -126,18 +139,18 @@ if (count($result->errors) > 0) {
                     echo "<td>" . $lineitems['qty'] . "</td>";
                     echo "<td>" . $lineitems['price'] . "</td>";
                     echo "<td><div class='btn-group' role='group'>";
-                    echo "<a href='invoicebyid.php?invoice_id=" . $lineitems['id'] . "' class='btn btn-primary'>View/Edit</a>";
-                    echo "<input type='submit' name='del_invoice_id_" . $lineitems['id'] . "' class='btn btn-danger' value='Delete' />";
+                    echo "<a href='invoicebyid.php?invoice_id=" . $lineitems['invoice_id'] . "' class='btn btn-primary'>View/Edit</a>";
+                    echo "<input type='submit' name='del_invoice_id_" . $lineitems['invoice_id'] . "' class='btn btn-danger' value='Delete' />";
                     echo "</tr>";
                     echo "</div>";
                 }
         echo "</div>";
-        
+
         echo "</div>";
         echo "</div>";
         echo "</div>";
 
-        
+
 
             echo "</tbody>
         </table>
@@ -147,4 +160,50 @@ if (count($result->errors) > 0) {
     }
 }
 ?>
+  <!-- Add Line Item Modal -->
+  <div class='modal fade' id='addLineItemModal' tabindex='-1' role='dialog' aria-labelledby='addLineItemModalLabel' aria-hidden='true'>
+    <div class='modal-dialog' role='document'>
+      <div class='modal-content'>
+        <div class='modal-header'>
+          <h5 class='modal-title' id='addInvoiceModalLabel'>Add Invoice</h5>
+          <button type='button' class='close' data-dismiss='modal' aria-label='Close'>
+            <span aria-hidden='true'>&times;</span>
+          </button>
+        </div>
+        <div class='modal-body'>
+          <form method='POST'>
+            <div class='form-group'>
+              <label for='add_li_lbl'>Select a Stock item</label>
+              <select class='form-control' style='width: 100%;' name='add_li_sto' aria-label='Default select example'>
+                <option selected>...</option>
+                <?php
+                  $db = Db::getInstance();
+                  $result = $db->getAll('stock');
+
+                  if (count($result->errors) < 0) {
+                    foreach ($result->errors as $error) {
+                      include "../Modules/error.php";
+                    }
+                  } else {
+                    while ($stock = $result->data->fetch()) {
+                      echo "<option value='" . $stock['id'] . "'>Name: " . $stock['name'] . ' - Current Price: ' . $stock['current_price'] . "</option>";
+                    }
+                  }
+                 ?>
+               </select>
+             </div>
+            <div class='form-group add-stock-modal'><label for='add_li_price'>Price</label><input type='text' class='form-control' name='add_li_price' /></div>
+            <div class='form-group add-stock-modal'><label for='add_li_qty'>Quantity</label><input type='text' class='form-control' name='add_li_qty' /></div>
+            <div class='form-group add-stock-modal'><label for='add_li_notes'>Notes</label><input type='text' class='form-control' name='add_li_notes' /></div>
+            <div class='modal-footer'>
+              <div class='btn-group add-modal-footer mb-0'>
+                <input type='submit' class='btn btn-primary' name='add_lineitem' value='Submit'>
+                <button type='button' class='btn btn-secondary' data-dismiss='modal'>Close</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
 <?php include "../Modules/linksandscripts.php" ?>
