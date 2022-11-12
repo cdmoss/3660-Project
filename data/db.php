@@ -99,7 +99,7 @@
             $result->errors[] = 'There are no invoices with that id.';
         }
 
-        if (!is_null($qty) || !is_int($qty) || $qty < 1) {
+        if (is_null($qty) || !is_int($qty) || $qty < 1) {
             $result->errors[] = 'A valid quantity was not provided.';
         }
 
@@ -465,7 +465,7 @@
     public function addLineItem($stockId, $invoiceId, $label, $qty, $price) {
         $result = new QueryResult();
 
-        $this->validateLineItem($stockId, $invoiceId, $label,  $qty, $price);
+        $this->validateLineItem($result, $stockId, $invoiceId, $qty, $price);
 
         if (count($result->errors) == 0) {
             try {
