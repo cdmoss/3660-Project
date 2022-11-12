@@ -1,5 +1,5 @@
-<?php include "models/query-result.php" ?> 
-<?php include "../Modules/logging.php" ?> 
+<?php include "models/query-result.php" ?>
+<?php include "../Modules/logging.php" ?>
 
 <?php
     define("SERVER_ERROR_MSG", "A server error occured. Reload the page and try again, or contact the administrator of this site.");
@@ -85,7 +85,7 @@
             $result->errors[] = 'A valid customer id was not provided.';
         }
         // validate that given customer exists
-        elseif (!Db::existingRecordInTableHasId("customers", $customerId)) { 
+        elseif (!Db::existingRecordInTableHasId("customers", $customerId)) {
             $result->errors[] = 'There are no customers with that id.';
         }
     }
@@ -387,7 +387,7 @@
                 $result->data->bindParam(':customer_id', $customerId);
                 $_cleared = isset($cleared) ? $cleared : false;
                 $result->data->bindParam(':cleared', $cleared);
-                
+
                 $result->data->execute();
             }
             catch (PDOException $e) {
@@ -407,7 +407,7 @@
         if (count($result->errors) == 0) {
             try {
                 $sql = "update invoices set label = :label, customer_id = :customer_id, cleared = :cleared where id = :id";
-                $result->data = $this->pdo->prepare($sql); 
+                $result->data = $this->pdo->prepare($sql);
                 $result->data->bindParam(':label', $label);
                 $result->data->bindParam(':customer_id', $customerId);
                 $result->data->bindParam(':cleared', $cleared);
@@ -510,10 +510,9 @@
                 $result->errors[] = SERVER_ERROR_MSG;
             }
         }
-
+        return $result;
     }
     // *** ENDLINE ITEMS ***
 }
 
 ?>
-
