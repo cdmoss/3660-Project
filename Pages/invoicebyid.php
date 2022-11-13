@@ -154,7 +154,7 @@ if (count($result->errors) > 0) {
                     echo "<td>" . $lineitems['qty'] . "</td>";
                     echo "<td>" . $lineitems['price'] . "</td>";
                     echo "<td><div class='btn-group' role='group'>";
-                    echo "<a href='invoicebyid.php?invoice_id=" . $lineitems['invoice_id'] . "' class='btn btn-primary'>View/Edit</a>";
+                    echo "<a href='lineitembyid.php?stock_id=" . $lineitems['stock_id'] . "&invoice_id=" . $lineitems['invoice_id'] . "' class='btn btn-primary'>View/Edit</a>";
                     echo "<input type='submit' name='del_lineitem_id_" . $lineitems['stock_id'] . $lineitems['invoice_id'] . "' class='btn btn-danger' value='Delete' />";
                     echo "</tr>";
                     echo "</div>";
