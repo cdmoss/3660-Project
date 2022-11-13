@@ -7,7 +7,6 @@
 - [ ] fix phone validation
 
 #### Trey
-- [ ] Build lineitembyid page
-- [ ] Get lineitem deletion working
+- [ ] Fix lineitem edit function
 - [ ] Add validation for lineitem unique primary keys
 - [ ] Login page
