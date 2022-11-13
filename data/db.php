@@ -488,6 +488,30 @@
         return $result;
     }
 
+    public function editLineItem($stock_id, $invoice_id, $qty, $price, $label) {
+        $result = new QueryResult();
+
+        $this->validateLineItem($result, $stock_id, $invoice_id, $qty, $price);
+
+        if (count($result->errors) == 0) {
+            try {
+                $sql = "update lineitems set qty = :qty, price = :price, label = :label where stock_id = :stock_id and invoice_id = :invoice_id";
+                $result->data = $this->pdo->prepare($sql);
+                $result->data->bindParam(':qty', $qty);
+                $result->data->bindParam(':price', $price);
+                $result->data->bindParam(':label', $label);
+                $result->data->bindParam(':stock_id', $stock_id);
+                $result->data->bindParam(':invoice_id', $invoice_id);
+                $result->data->execute();
+            }
+            catch (PDOException $e) {
+                throw new PDOException($e->getMessage(), (int)$e->getCode());
+                $result->errors[] = SERVER_ERROR_MSG;
+            }
+        }
+        return $result;
+    }
+
     public function deleteLineItem($stockId, $invoiceId) {
         $result = new QueryResult();
         if (is_null($stockId)) {
@@ -510,6 +534,32 @@
                 $result->errors[] = SERVER_ERROR_MSG;
             }
         }
+        return $result;
+    }
+
+    public function getSingleLineItemByIds($stock_id, $invoice_id) {
+        $result = new QueryResult();
+        if (is_null($stock_id)) {
+            logError("Can't retrieve single record from Lineitems, no Stock ID was provided");
+            $result->errors[] = SERVER_ERROR_MSG;
+            return $result;
+        }
+        if (is_null($invoice_id)) {
+            logError("Can't retrieve single record from Lineitems, no Invoice ID was provided");
+            $result->errors[] = SERVER_ERROR_MSG;
+            return $result;
+        }
+        try {
+            $result->data = $this->pdo->prepare('select * from lineitems where stock_id = :stock_id and invoice_id = :invoice_id');
+            $result->data->bindParam(':stock_id', $stock_id);
+            $result->data->bindParam(':invoice_id', $invoice_id);
+            $result->data->execute();
+        }
+        catch (PDOException $e) {
+            logError($e->getMessage(), (int)$e->getCode());
+            $result->errors[] = SERVER_ERROR_MSG;
+        }
+
         return $result;
     }
     // *** ENDLINE ITEMS ***
