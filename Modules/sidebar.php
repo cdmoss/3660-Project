@@ -47,6 +47,7 @@
               <?= $page == 'stockbyid.php' ? "<b><a href='stock.php'>Stock Items</a> / Item Name: " . $_GET['stock_name'] . " - Item ID: #" . $_GET['stock_id'] . "</b>" : '' ?>
               <?= $page == 'invoice.php' ? "<b>Invoices</b>" : '' ?>
               <?= $page == 'invoicebyid.php' ? "<b><a href='invoice.php'>Invoices</a> / ID: #" . $_GET['invoice_id'] . "</b>" : '' ?>
+              <?= $page == 'lineitembyid.php' ? "<b><a href='invoice.php'>Invoices</a></b><b><span class='ml-1 mr-1'>/</span></b><b><a href='invoicebyid.php?invoice_id=" . $_GET['invoice_id'] . "'>Invoice ID: #" . $_GET['invoice_id'] . "</b></a>" : '' ?>
             </nav>
             <!-- End of Topbar -->
             

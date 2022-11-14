@@ -31,7 +31,7 @@ if (isset($_POST['edit_invoice'])) {
 
 if (isset($_POST['add_lineitem'])) {
   $db = Db::getInstance();
-  $result = $db->addLineItem($_POST['add_li_sto'], $_GET['invoice_id'], $_POST['add_li_notes'], intval($_POST['add_li_qty']), floatval($_POST['add_li_price']));
+  $result = $db->addLineItem($_POST['add_li_sto'], $_GET['invoice_id'], $_POST['add_li_notes'], $_POST['add_li_qty'], $_POST['add_li_price']);
   if (count($result->errors) > 0) {
     foreach ($result->errors as $error) {
       include "../Modules/error.php";
@@ -41,10 +41,10 @@ if (isset($_POST['add_lineitem'])) {
 
 if (!empty($_POST)) {
   foreach ($_POST as $name => $val) {
-    if (str_contains($name, 'del_lineitem_id_')) {
+    if (str_contains($name, 'del_lineitem_')) {
       $lineitem_id = explode('_', $name);
       $db = Db::getInstance();
-      $result = $db->deleteLineItem($lineitem_id[3][0], $lineitem_id[3][1]);
+      $result = $db->deleteLineItem($lineitem_id[3], $lineitem_id[5]);
       if (count($result->errors) > 0) {
         foreach ($result->errors as $error) {
           include "../Modules/error.php";
@@ -155,7 +155,7 @@ if (count($result->errors) > 0) {
                     echo "<td>" . $lineitems['price'] . "</td>";
                     echo "<td><div class='btn-group' role='group'>";
                     echo "<a href='lineitembyid.php?stock_id=" . $lineitems['stock_id'] . "&invoice_id=" . $lineitems['invoice_id'] . "' class='btn btn-primary'>View/Edit</a>";
-                    echo "<input type='submit' name='del_lineitem_id_" . $lineitems['stock_id'] . $lineitems['invoice_id'] . "' class='btn btn-danger' value='Delete' />";
+                    echo "<input type='submit' name='del_lineitem_stockid_" . $lineitems['stock_id'] . '_invoiceid_' . $lineitems['invoice_id'] . "' class='btn btn-danger' value='Delete' />";
                     echo "</tr>";
                     echo "</div>";
                 }
@@ -210,6 +210,7 @@ if (count($result->errors) > 0) {
             <div class='form-group add-stock-modal'><label for='add_li_price'>Price</label><input type='text' class='form-control' name='add_li_price' /></div>
             <div class='form-group add-stock-modal'><label for='add_li_qty'>Quantity</label><input type='text' class='form-control' name='add_li_qty' /></div>
             <div class='form-group add-stock-modal'><label for='add_li_notes'>Notes</label><input type='text' class='form-control' name='add_li_notes' /></div>
+            </div>
             <div class='modal-footer'>
               <div class='btn-group add-modal-footer mb-0'>
                 <input type='submit' class='btn btn-primary' name='add_lineitem' value='Submit'>
@@ -217,7 +218,6 @@ if (count($result->errors) > 0) {
               </div>
             </form>
           </div>
-        </div>
       </div>
     </div>
 

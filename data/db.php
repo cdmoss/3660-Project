@@ -99,11 +99,11 @@
             $result->errors[] = 'There are no invoices with that id.';
         }
 
-        if (is_null($qty) || !is_int($qty) || $qty < 1) {
+        if (is_null($qty) || !is_numeric($qty) || $qty < 1) {
             $result->errors[] = 'A valid quantity was not provided.';
         }
 
-        if (is_null($price) || !is_float($price) || $price < 0) {
+        if (is_null($price) || !is_numeric($price) || $price < 0) {
             $result->errors[] = 'A valid price was not provided.';
         }
     }
@@ -269,22 +269,6 @@
         return $result;
     }
 
-    public function deleteCustomer($id) {
-        $result = new QueryResult();
-
-        try {
-            $sql = "delete from customers where id = :id";
-            $result->data = $this->pdo->prepare($sql);
-            $result->data->bindParam(':id', $id);
-            $result->data->execute();
-        }
-        catch (PDOException $e) {
-            throw new PDOException($e->getMessage(), (int)$e->getCode());
-            $result->errors[] = SERVER_ERROR_MSG;
-        }
-
-        return $result;
-    }
     // *** END CUSTOMERS ***
 
     // *** STOCK ***
@@ -331,23 +315,6 @@
                 throw new PDOException($e->getMessage(), (int)$e->getCode());
                 $result->errors[] = SERVER_ERROR_MSG;
             }
-        }
-
-        return $result;
-    }
-
-    public function deleteStockItem($id) {
-        $result = new QueryResult();
-
-        try {
-            $sql = "delete from stock where id = :id";
-            $result->data = $this->pdo->prepare($sql);
-            $result->data->bindParam(':id', $id);
-            $result->data->execute();
-        }
-        catch (PDOException $e) {
-            throw new PDOException($e->getMessage(), (int)$e->getCode());
-            $result->errors[] = SERVER_ERROR_MSG;
         }
 
         return $result;
@@ -418,23 +385,6 @@
                 throw new PDOException($e->getMessage(), (int)$e->getCode());
                 $result->errors[] = SERVER_ERROR_MSG;
             }
-        }
-
-        return $result;
-    }
-
-    public function deleteInvoice($id) {
-        $result = new QueryResult();
-
-        try {
-            $sql = "delete from invoices where id = :id";
-            $result->data = $this->pdo->prepare($sql);
-            $result->data->bindParam(':id', $id);
-            $result->data->execute();
-        }
-        catch (PDOException $e) {
-            throw new PDOException($e->getMessage(), (int)$e->getCode());
-            $result->errors[] = SERVER_ERROR_MSG;
         }
 
         return $result;
