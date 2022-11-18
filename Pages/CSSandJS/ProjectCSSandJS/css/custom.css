@@ -1,32 +1,38 @@
 .cusById {
-    min-width: 250px; 
-    width: 80%; 
+    min-width: 250px;
+    width: 80%;
     margin-left: .5%;
 }
 
 .stockById {
-    min-width: 250px; 
-    width: 20%; 
+    min-width: 250px;
+    width: 20%;
     margin-left: 0%;
 }
 
 .invoiceById {
-    min-width: 250px; 
-    width: 80%; 
+    min-width: 250px;
+    width: 80%;
     margin-left: 0%;
     padding-left: 0%;
 }
 
 .add-customer-modal {
-    min-width: 250px; 
-    width: 95%; 
+    min-width: 250px;
+    width: 95%;
     margin-left: 2%;
 }
 
 .add-modal-footer {
-    min-width: 250px; 
-    width: 15%; 
+    min-width: 250px;
+    width: 15%;
     margin-left: auto;
     margin-right: 4%;
     margin-bottom: 0%;
+}
+
+.login {
+  min-width: 250px;
+  width: 20%;
+  margin: auto;
 }
