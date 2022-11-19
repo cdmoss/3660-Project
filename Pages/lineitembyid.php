@@ -27,7 +27,7 @@
 <html lang="en">
 
 <head>
-  <title>Computer Repair - Stock Information</title>
+  <title>Computer Repair - Line Item Information</title>
 </head>
 
 <body id="page-top">
