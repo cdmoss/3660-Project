@@ -23,6 +23,15 @@
   }
 ?>
 
+<!doctype html>
+<html lang="en">
+
+<head>
+  <title>Computer Repair - Stock Information</title>
+</head>
+
+<body id="page-top">
+
 <!-- Sidebar -->
 <?php include "../Modules/sidebar.php" ?>
 
@@ -67,4 +76,7 @@ if (count($result->errors) > 0) {
   }
 }
 ?>
+
+</body>
+</html>
 <?php include "../Modules/linksandscripts.php" ?>
