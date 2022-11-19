@@ -3,6 +3,7 @@
 - [ ] SBadmin template currently isn't toggling the sidebar correctly
 - [ ] Fix spacing of horizontal rules in invoicebyid page
 - [ ] session_destory() on logout
+- [ ] Add in successful adding, editing, and deletion messages
 
 
 #### Chase
