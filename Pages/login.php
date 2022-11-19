@@ -17,7 +17,7 @@ if (isset($_POST['submitLogin'])) {
 
 <body id="page-top">
   <div class="form-group login center-screen">
-  ` <img src="../images/logoblack.png" style="margin-left: 15%; margin-bottom: -50px;" alt="Group 2 Computer Repair logo" width="300" height="300"> 
+    <img src="../images/logoblack.png" style="margin-left: 15%; margin-bottom: -50px;" alt="Group 2 Computer Repair logo" width="300" height="300"> 
     <h1 style="text-align:center;">Computer Repair Login</h1>
     <hr>
     <form method='POST'>
