@@ -30,7 +30,7 @@ if (isset($_POST['submitLogin'])) {
 <html lang="en">
 
 <head>
-  <title>Login</title>
+  <title>Computer Repair - Login</title>
 </head>
 
 <body id="page-top">
