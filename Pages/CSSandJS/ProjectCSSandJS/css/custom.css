@@ -36,3 +36,9 @@
   width: 20%;
   margin: auto;
 }
+
+.center-screen {
+    margin-top: 1%;
+    justify-content: center;
+    align-items: center;
+  }
