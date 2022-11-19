@@ -235,8 +235,8 @@ if (count($result->errors) > 0) {
                  ?>
                </select>
              </div>
-            <div class='form-group add-stock-modal'><label for='add_li_price'>Price</label><input type='text' class='form-control' name='add_li_price' /></div>
             <div class='form-group add-stock-modal'><label for='add_li_qty'>Quantity</label><input type='text' class='form-control' name='add_li_qty' /></div>
+            <div class='form-group add-stock-modal'><label for='add_li_price'>Price</label><input type='text' class='form-control' name='add_li_price' /></div>
             <div class='form-group add-stock-modal'><label for='add_li_notes'>Notes</label><input type='text' class='form-control' name='add_li_notes' /></div>
             </div>
             <div class='modal-footer'>

@@ -21,13 +21,21 @@
             </div>
 
             <!-- Nav Item - Customer -->
-            <li class="nav-item ml-2 <?= $page == 'customer.php' ? 'active' : '' ?>"><a class="nav-link" href="customer.php"><i class="fa-solid fa-user fa-lg"></i><span class="ml-2">Customers</span></a></li>
+            <li class="nav-item <?= $page == 'customer.php' ? 'active' : '' ?>"><a class="nav-link" href="customer.php"><i class="fa-solid fa-user"></i>&nbsp;<span>Customers</span></a></li>
 
             <!-- Nav Item - Stock -->
-            <li class="nav-item ml-2 <?= $page == 'stock.php' ? 'active' : '' ?>"><a class="nav-link" href="stock.php"><i class="fa-solid fa-boxes-stacked"></i><span class="ml-2">Stock</span></a></li>
+            <li class="nav-item <?= $page == 'stock.php' ? 'active' : '' ?>"><a class="nav-link" href="stock.php"><i class="fa-solid fa-boxes-stacked "></i>&nbsp;<span>Stock</span></a></li>
 
             <!-- Nav Item - Invoice -->
-            <li class="nav-item ml-2 <?= $page == 'invoice.php' ? 'active' : '' ?>"><a class="nav-link" href="invoice.php"><i class="fa-solid fa-file-invoice-dollar"></i><span class="ml-2">Invoices</span></a></li>
+            <li class="nav-item <?= $page == 'invoice.php' ? 'active' : '' ?>"><a class="nav-link" href="invoice.php"><i class="fa-solid fa-file-invoice-dollar"></i>&nbsp;<span>Invoices</span></a></li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider d-none d-md-block">
+
+            <!-- Sidebar Toggler (Sidebar) -->
+            <div class="text-center d-none d-md-inline">
+                <button class="rounded-circle border-0" id="sidebarToggle"></button>
+            </div>
 
         </ul>
         
@@ -54,7 +62,7 @@
               <li class="nav-item dropdown no-arrow mx-auto my-0">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"><i class="fa-solid fa-user fa-lg"></i>&nbsp;Welcome, USER_NAME</span>
+                                <span class="mr-1 mt-2 d-none d-lg-inline text-gray-600 small"><h6>Welcome, USER_NAME&nbsp;&nbsp;<i class="fa-solid fa-circle-user fa-lg"></i></h6></span>
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in">
