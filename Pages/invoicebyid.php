@@ -1,19 +1,18 @@
-<?php include "../data/db.php" ?>
+<?php 
+  include "../data/db.php";
+  session_start();
 
-<?php
-if (isset($_POST['del_invoice'])) {
+  if (isset($_POST['del_invoice'])) {
     $db = Db::getInstance();
     $result = $db->delete('invoices', $_GET['invoice_id']);
     if (count($result->errors) > 0) {
-        foreach ($result->errors as $error) {
-            include "../Modules/error.php";
-        }
+      $_SESSION['errors_del_invoice'] = $result->errors;
+    } else {
+      header('location: invoice.php');
     }
-    header('location: invoice.php');
-}
+  }
 
-
-if (isset($_POST['edit_invoice'])) {
+  if (isset($_POST['edit_invoice'])) {
     if (empty($_POST['invoice_cleared'])) {
         $_POST['invoice_cleared'] = 0;
     } else if ($_POST['invoice_cleared'] == 'on') {
@@ -22,39 +21,42 @@ if (isset($_POST['edit_invoice'])) {
     $db = Db::getInstance();
     $result = $db->editInvoice($_POST['invoice_id'], $_POST['invoice_lbl'], $_POST['invoice_cleared'], $_POST['invoice_cus_id']);
     if (count($result->errors) > 0) {
-        foreach ($result->errors as $error) {
-            include "../Modules/error.php";
-        }
-    }
-    header('location: invoicebyid.php?invoice_id=' . $_POST['invoice_id'] . '');
-}
-
-if (isset($_POST['add_lineitem'])) {
-  $db = Db::getInstance();
-  $result = $db->addLineItem($_POST['add_li_sto'], $_GET['invoice_id'], $_POST['add_li_notes'], $_POST['add_li_qty'], $_POST['add_li_price']);
-  if (count($result->errors) > 0) {
-    foreach ($result->errors as $error) {
-      include "../Modules/error.php";
+      $_SESSION['errors_edit'] = $result->errors;
+    } else {
+      header('location: invoicebyid.php?invoice_id=' . $_POST['invoice_id'] . '');
     }
   }
-}
 
-if (!empty($_POST)) {
-  foreach ($_POST as $name => $val) {
-    if (str_contains($name, 'del_lineitem_')) {
-      $lineitem_id = explode('_', $name);
-      $db = Db::getInstance();
-      $result = $db->deleteLineItem($lineitem_id[3], $lineitem_id[5]);
-      if (count($result->errors) > 0) {
-        foreach ($result->errors as $error) {
-          include "../Modules/error.php";
+  if (isset($_POST['add_lineitem'])) {
+    $db = Db::getInstance();
+    $result = $db->addLineItem($_POST['add_li_sto'], $_GET['invoice_id'], $_POST['add_li_notes'], $_POST['add_li_qty'], $_POST['add_li_price']);
+    if (count($result->errors) > 0) {
+      $_SESSION['errors_add'] = $result->errors;
+    }
+  }
+
+  if (!empty($_POST)) {
+    foreach ($_POST as $name => $val) {
+      if (str_contains($name, 'del_lineitem_')) {
+        $lineitem_id = explode('_', $name);
+        $db = Db::getInstance();
+        $result = $db->deleteLineItem($lineitem_id[3], $lineitem_id[5]);
+        if (count($result->errors) > 0) {
+          $_SESSION['errors_del_lineitem'] = $result->errors;
         }
       }
     }
   }
-}
-
 ?>
+
+<!doctype html>
+<html lang="en">
+
+<head>
+  <title>Computer Repair - Invoice Information</title>
+</head>
+
+<body>
 
 <!-- Sidebar -->
 <?php include "../Modules/sidebar.php" ?>
@@ -70,6 +72,30 @@ if (count($result->errors) > 0) {
 } else {
     while ($invoice = $result->data->fetch()) {
         echo "<div style='display:block;width:95%;margin-left:auto;margin-right:auto;'>";
+        if(!empty($_SESSION['errors_edit'])) {
+          foreach ($_SESSION['errors_edit'] as $error) {
+            include "../Modules/error.php";
+          }
+          session_unset();
+        }
+        if(!empty($_SESSION['errors_del_lineitem'])) {
+          foreach ($_SESSION['errors_del_lineitem'] as $error) {
+            include "../Modules/error.php";
+          }
+          session_unset();
+        }
+        if(!empty($_SESSION['errors_del_invoice'])) {
+          foreach ($_SESSION['errors_del_invoice'] as $error) {
+            include "../Modules/error.php";
+          }
+          session_unset();
+        }
+        if(!empty($_SESSION['errors_add'])) {
+          foreach ($_SESSION['errors_add'] as $error) {
+            include "../Modules/error.php";
+          }
+          session_unset();
+        }
 
         echo "<div id='invoice_information' style='width:25%;float:left;'>";
             echo "<h5>Invoice Information</h5>";
@@ -112,9 +138,9 @@ if (count($result->errors) > 0) {
                 echo "<div class='form-group invoiceById'><label for='invoice_cleared'>Cleared</label><input type='checkbox' style='width:9%;' class='form-control' name='invoice_cleared' /></div>";
             }
             echo "<div class='btn-group invoiceById' role='group'>";
-            echo "<input type='submit' name='edit_invoice' class='btn btn-warning' value='Save Changes' />";
-            echo "<input type='submit' name='del_invoice' class='btn btn-danger' value='Delete' />";
-            echo "<a href='invoice.php' class='btn btn-primary'>Go Back</a>";
+            echo "<input type='submit' name='edit_invoice' class='btn btn-outline-dark' value='Save Changes' />";
+            echo "<input type='submit' name='del_invoice' class='btn btn-outline-danger' value='Delete' />";
+            echo "<a href='invoice.php' class='btn btn-outline-primary'>Go Back</a>";
             echo "</div>";
             echo "</form>";
         echo "</div>";
@@ -134,22 +160,22 @@ if (count($result->errors) > 0) {
                 </button>";
             echo "<hr>";
             echo "<form method='POST'>
-            <table class='table mt-'>
+            <table class='table mt-3 table-striped table-bordered'>
             <thead class='thead-dark'>
             <tr>
-                <th>Stock ID</th>
-                <th>Invoice ID</th>
-                <th>Label</th>
-                <th>Quantity</th>
-                <th>Price</th>
-                <th>Actions</th>
+                <th scope='col'>Stock ID</th>
+                <th scope='col'>Invoice ID</th>
+                <th scope='col'>Label</th>
+                <th scope='col'>Quantity</th>
+                <th scope='col'>Price</th>
+                <th scope='col'>Actions</th>
             </tr>
             </thead>
             <tbody>";
                 while ($lineitems = $result->data->fetch()) {
                     echo "<tr>";
-                    echo "<td>" . $lineitems['stock_id'] . "</td>";
-                    echo "<td>" . $lineitems['invoice_id'] . "</td>";
+                    echo "<th scope='row'>" . $lineitems['stock_id'] . "</th>";
+                    echo "<th scope='row'>" . $lineitems['invoice_id'] . "</th>";
                     echo "<td>" . $lineitems['label'] . "</td>";
                     echo "<td>" . $lineitems['qty'] . "</td>";
                     echo "<td>" . $lineitems['price'] . "</td>";
@@ -173,8 +199,10 @@ if (count($result->errors) > 0) {
         }
         echo "</div>";
     }
-}
+  }   
 ?>
+</body>
+</html>
   <!-- Add Line Item Modal -->
   <div class='modal fade' id='addLineItemModal' tabindex='-1' role='dialog' aria-labelledby='addLineItemModalLabel' aria-hidden='true'>
     <div class='modal-dialog' role='document'>
@@ -220,5 +248,6 @@ if (count($result->errors) > 0) {
           </div>
       </div>
     </div>
+  </div>
 
 <?php include "../Modules/linksandscripts.php" ?>

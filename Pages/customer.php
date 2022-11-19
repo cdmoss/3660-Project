@@ -1,39 +1,38 @@
-<?php include "../data/db.php" ?>
+<?php 
+  include "../data/db.php";
+  session_start();
 
-<?php
-if (!empty($_POST)) {
-  foreach ($_POST as $name => $val) {
-    if (str_contains($name, 'del_customer_id_')) {
-      $cus_id = explode('_', $name);
-      $db = Db::getInstance();
-      $result = $db->delete('customers', $cus_id[3]);
-      if (count($result->errors) > 0) {
-        foreach ($result->errors as $error) {
-          include "../Modules/error.php";
-        }
-      }
+  if (isset($_POST['add_customer'])) {
+    $db = Db::getInstance();
+    $result = $db->addCustomer($_POST['add_cus_name'], $_POST['add_cus_email'], $_POST['add_cus_phone'], $_POST['add_cus_address']);
+    if (count($result->errors) > 0) {
+      $_SESSION['errors_add'] = $result->errors;
+    } else {
       header('location: customer.php');
     }
   }
-}
 
-if (isset($_POST['add_customer'])) {
-  $db = Db::getInstance();
-  $result = $db->addCustomer($_POST['add_cus_name'], $_POST['add_cus_email'], $_POST['add_cus_phone'], $_POST['add_cus_address']);
-  if (count($result->errors) > 0) {
-    foreach ($result->errors as $error) {
-      include "../Modules/error.php";
+  if (!empty($_POST)) {
+    foreach ($_POST as $name => $val) {
+      if (str_contains($name, 'del_customer_id_')) {
+        $cus_id = explode('_', $name);
+        $db = Db::getInstance();
+        $result = $db->delete('customers', $cus_id[3]);
+        if (count($result->errors) > 0) {
+          $_SESSION['errors_del'] = $result->errors;
+        } else {
+          header('location: customer.php');
+        }
+      }
     }
-  } else {
-    header('location: customer.php');
   }
-}
 ?>
 
 <!doctype html>
 <html lang="en">
 
 <head>
+  <title>Computer Repair - Customers</title>
 </head>
 
 <body id="page-top">
@@ -42,20 +41,35 @@ if (isset($_POST['add_customer'])) {
   <?php include "../Modules/sidebar.php" ?>
 
   <div class="container-fluid">
+    <?php // Display Errors
+    if(!empty($_SESSION['errors_add'])) {
+      foreach ($_SESSION['errors_add'] as $error) {
+        include "../Modules/error.php";
+      }
+      session_unset();
+    }
+    if(!empty($_SESSION['errors_del'])) {
+      foreach ($_SESSION['errors_del'] as $error) {
+        include "../Modules/error.php";
+      }
+      session_unset();
+    }
+    ?>
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addCustomerModal">
       <i class='fa-solid fa-plus'></i><span class='ml-1'>Add a Customer</span>
     </button>
+
     <!-- Table -->
     <form method="POST">
-      <table class="table mt-3">
+      <table class="table mt-3 table-striped table-bordered">
         <thead class="thead-dark">
           <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Phone</th>
-            <th>Address</th>
-            <th>Actions</th>
+            <th scope="col">ID</th>
+            <th scope="col">Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Phone</th>
+            <th scope="col">Address</th>
+            <th scope="col">Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -70,14 +84,14 @@ if (isset($_POST['add_customer'])) {
           } else {
             while ($customer = $result->data->fetch()) {
               echo "<tr>";
-              echo "<td>" . $customer['id'] . "</td>";
-              echo "<td>" . $customer['name'] . "</td>";
-              echo "<td>" . $customer['email'] . "</td>";
-              echo "<td>" . $customer['phone'] . "</td>";
-              echo "<td>" . $customer['address'] . "</td>";
-              echo "<td><div class='btn-group' role='group'>";
-              echo "<a href='customerbyid.php?cus_id=" . $customer['id'] . "&cus_name=" . $customer['name'] . "' class='btn btn-primary'>View/Edit</a>";
-              echo "<input type='submit' name='del_customer_id_" . $customer['id'] . "' class='btn btn-danger' value='Delete' />";
+                echo "<th scope='row'>" . $customer['id'] . "</th>";
+                echo "<td>" . $customer['name'] . "</td>";
+                echo "<td>" . $customer['email'] . "</td>";
+                echo "<td>" . $customer['phone'] . "</td>";
+                echo "<td>" . $customer['address'] . "</td>";
+                echo "<td><div class='btn-group' role='group'>";
+                echo "<a href='customerbyid.php?cus_id=" . $customer['id'] . "&cus_name=" . $customer['name'] . "' class='btn btn-primary'>View/Edit</a>";
+                echo "<input type='submit' name='del_customer_id_" . $customer['id'] . "' class='btn btn-danger' value='Delete' />";
               echo "</tr>";
               echo "</div>";
             }

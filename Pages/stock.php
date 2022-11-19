@@ -1,38 +1,38 @@
-<?php include "../data/db.php" ?>
+<?php 
+  include "../data/db.php";
+  session_start();
 
-<?php
-if (!empty($_POST)) {
-  foreach ($_POST as $name => $val) {
-    if (str_contains($name, 'del_stock_id_')) {
-      $stock_id = explode('_', $name);
-      $db = Db::getInstance();
-      $result = $db->delete('stock', $stock_id[3]);
-      if (count($result->errors) > 0) {
-        foreach ($result->errors as $error) {
-          include "../Modules/error.php";
+  if (!empty($_POST)) {
+    foreach ($_POST as $name => $val) {
+      if (str_contains($name, 'del_stock_id_')) {
+        $stock_id = explode('_', $name);
+        $db = Db::getInstance();
+        $result = $db->delete('stock', $stock_id[3]);
+        if (count($result->errors) > 0) {
+          $_SESSION['errors_del'] = $result->errors;
+        } else {
+          header('location: stock.php');
         }
       }
-      header('location: stock.php');
     }
   }
-}
-
-if (isset($_POST['add_stock'])) {
-  $db = Db::getInstance();
-  $result = $db->addNewStockItem($_POST['add_sto_name'], $_POST['add_sto_price'], $_POST['add_sto_qty']);
-  if (count($result->errors) > 0) {
-    foreach ($result->errors as $error) {
-      include "../Modules/error.php";
-    }
+  
+  if (isset($_POST['add_stock'])) {
+    $db = Db::getInstance();
+      $result = $db->addNewStockItem($_POST['add_sto_name'], $_POST['add_sto_price'], $_POST['add_sto_qty']);
+      if (count($result->errors) > 0) {
+        $_SESSION['errors_add'] = $result->errors;
+      } else {
+        header('location: stock.php');
+      }
   }
-  header('location: stock.php');
-}
 ?>
 
 <!doctype html>
 <html lang="en">
 
 <head>
+  <title>Computer Repair - Stock</title>
 </head>
 
 <body id="page-top">
@@ -41,19 +41,34 @@ if (isset($_POST['add_stock'])) {
   <?php include "../Modules/sidebar.php" ?>
 
   <div class="container-fluid">
+  <?php // Display errors
+      if(!empty($_SESSION['errors_del'])) {
+        foreach ($_SESSION['errors_del'] as $error) {
+          include "../Modules/error.php";
+        }
+        session_unset();
+      }
+
+      if(!empty($_SESSION['errors_add'])) {
+        foreach ($_SESSION['errors_add'] as $error) {
+          include "../Modules/error.php";
+        }
+        session_unset();
+      }
+    ?>
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addStockModal">
       <i class='fa-solid fa-plus'></i><span class='ml-1'>Add a Stock Item</span>
     </button>
     <!-- Table -->
     <form method="POST">
-      <table class="table mt-3">
+      <table class="table mt-3 table-striped table-bordered">
         <thead class="thead-dark">
           <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Current Price</th>
-            <th>Quantity</th>
-            <th>Actions</th>
+            <th scope='col'>ID</th>
+            <th scope='col'>Name</th>
+            <th scope='col'>Current Price</th>
+            <th scope='col'>Quantity</th>
+            <th scope='col'>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -68,7 +83,7 @@ if (isset($_POST['add_stock'])) {
           } else {
             while ($stock = $result->data->fetch()) {
               echo "<tr>";
-              echo "<td>" . $stock['id'] . "</td>";
+              echo "<th scope='row'>" . $stock['id'] . "</th>";
               echo "<td>" . $stock['name'] . "</td>";
               echo "<td>" . $stock['current_price'] . "</td>";
               echo "<td>" . $stock['qty'] . "</td>";

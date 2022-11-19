@@ -1,43 +1,43 @@
-<?php include "../data/db.php" ?>
+<?php 
+  include "../data/db.php";
+  session_start();
 
-<?php
-if (!empty($_POST)) {
-  foreach ($_POST as $name => $val) {
-    if (str_contains($name, 'del_invoice_id_')) {
-      $invoice_id = explode('_', $name);
-      $db = Db::getInstance();
-      $result = $db->delete('invoices', $invoice_id[3]);
-      if (count($result->errors) > 0) {
-        foreach ($result->errors as $error) {
-          include "../Modules/error.php";
+  if (!empty($_POST)) {
+    foreach ($_POST as $name => $val) {
+      if (str_contains($name, 'del_invoice_id_')) {
+        $invoice_id = explode('_', $name);
+        $db = Db::getInstance();
+        $result = $db->delete('invoices', $invoice_id[3]);
+        if (count($result->errors) > 0) {
+          $_SESSION['errors_del'] = $result->errors;
+        } else {
+          header('location: invoice.php');
         }
       }
-      header('location: invoice.php');
     }
   }
-}
 
-if (isset($_POST['add_invoice'])) {
-  if (empty($_POST['add_inv_cleared'])) {
-    $_POST['add_inv_cleared'] = 0;
-  } else if ($_POST['add_inv_cleared'] == 'on') {
-    $_POST['add_inv_cleared'] = 1;
-  }
-  $db = Db::getInstance();
-  $result = $db->addInvoice($_POST['add_inv_lbl'], $_POST['add_inv_cus'], $_POST['add_inv_cleared']);
-  if (count($result->errors) > 0) {
-    foreach ($result->errors as $error) {
-      include "../Modules/error.php";
+  if (isset($_POST['add_invoice'])) {
+    if (empty($_POST['add_inv_cleared'])) {
+      $_POST['add_inv_cleared'] = 0;
+    } else if ($_POST['add_inv_cleared'] == 'on') {
+      $_POST['add_inv_cleared'] = 1;
     }
+    $db = Db::getInstance();
+    $result = $db->addInvoice($_POST['add_inv_lbl'], $_POST['add_inv_cus'], $_POST['add_inv_cleared']);
+    if (count($result->errors) > 0) {
+      $_SESSION['errors_add'] = $result->errors;
+    } else {
+      header('location: invoice.php');
+    } 
   }
-  //header('location: invoice.php');
-}
 ?>
 
 <!doctype html>
 <html lang="en">
 
 <head>
+  <title>Computer Repair - Invoices</title>
 </head>
 
 <body>
@@ -46,19 +46,33 @@ if (isset($_POST['add_invoice'])) {
   <?php include "../Modules/sidebar.php" ?>
 
   <div class="container-fluid">
+    <?php 
+      if(!empty($_SESSION['errors_del'])) {
+        foreach ($_SESSION['errors_del'] as $error) {
+          include "../Modules/error.php";
+        }
+        session_unset();
+      }
+      if(!empty($_SESSION['errors_add'])) {
+        foreach ($_SESSION['errors_add'] as $error) {
+          include "../Modules/error.php";
+        }
+        session_unset();
+      }
+    ?>
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addInvoiceModal">
       <i class='fa-solid fa-plus'></i><span class='ml-1'>Add an Invoice</span>
     </button>
     <!-- Table -->
     <form method="POST">
-      <table class="table mt-3">
+      <table class="table mt-3 table-striped table-bordered">
         <thead class="thead-dark">
           <tr>
-            <th>ID</th>
-            <th>Label</th>
-            <th>Created</th>
-            <th>Cleared</th>
-            <th>Actions</th>
+            <th scope='col'>ID</th>
+            <th scope='col'>Label</th>
+            <th scope='col'>Created</th>
+            <th scope='col'>Cleared</th>
+            <th scope='col'>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -73,7 +87,7 @@ if (isset($_POST['add_invoice'])) {
           } else {
             while ($invoices = $result->data->fetch()) {
               echo "<tr>";
-              echo "<td>" . $invoices['id'] . "</td>";
+              echo "<th scope='row'>" . $invoices['id'] . "</th>";
               echo "<td>" . $invoices['label'] . "</td>";
               echo "<td>" . $invoices['created'] . "</td>";
               if ($invoices['cleared'] == 1) {
