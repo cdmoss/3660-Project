@@ -10,5 +10,4 @@
 - [ ] fix phone validation
 
 #### Trey
-- [ ] Add validation for lineitem unique primary keys
-- [ ] Login page
+- [x] Login page
