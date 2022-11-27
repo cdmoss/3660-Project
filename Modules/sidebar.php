@@ -69,7 +69,7 @@ if (isset($_POST['logout'])) {
               <li class="nav-item dropdown no-arrow mx-auto my-0">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-1 mt-2 d-none d-lg-inline text-gray-600 small"><h6>Welcome, USER_NAME&nbsp;&nbsp;<i class="fa-solid fa-circle-user fa-lg"></i></h6></span>
+                                <span class="mr-1 mt-2 d-none d-lg-inline text-gray-600 small"><h6>Welcome, admin&nbsp;&nbsp;<i class="fa-solid fa-circle-user fa-lg"></i></h6></span>
                             </a>
                             <!-- Dropdown - User Information -->
                             <form class="dropdown-menu dropdown-menu-right shadow animated--grow-in" method="POST">
