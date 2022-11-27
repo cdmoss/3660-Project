@@ -99,7 +99,7 @@ if (count($result->errors) > 0) {
         }
 
         echo "<div id='invoice_information' style='width:25%;float:left;'>";
-            echo "<h5>Invoice Information</h5>";
+            echo "<h5 style='margin-bottom: 62px;'>Invoice Information</h5>";
             echo "<hr>";
             echo "<form method='POST'>";
             echo "<div class='form-group invoiceById'><label for='invoice_id'>Invoice ID</label><input type='text' class='form-control' name='invoice_id' value='" . $invoice['id'] . "' readonly /></div>";

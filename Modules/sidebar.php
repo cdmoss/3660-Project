@@ -36,13 +36,13 @@ if (isset($_POST['logout'])) {
             <!-- Nav Item - Invoice -->
             <li class="nav-item <?= $page == 'invoice.php' ? 'active' : '' ?>"><a class="nav-link" href="invoice.php"><i class="fa-solid fa-file-invoice-dollar"></i>&nbsp;<span>Invoices</span></a></li>
 
-            <!-- Divider -->
+            <!-- Divider
             <hr class="sidebar-divider d-none d-md-block">
 
-            <!-- Sidebar Toggler (Sidebar) -->
+            Sidebar Toggler (Sidebar)
             <div class="text-center d-none d-md-inline">
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>
-            </div>
+            </div> -->
 
         </ul>
         
