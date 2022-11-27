@@ -52,13 +52,13 @@ if (count($result->errors) > 0) {
       foreach($_SESSION['errors_edit'] as $error) {
         include "../Modules/error.php";
       }
-      session_unset();
+      unset($_SESSION['errors_edit']);
     }
     if (!empty($_SESSION['errors_del'])) {
       foreach($_SESSION['errors_del'] as $error) {
         include "../Modules/error.php";
       }
-      session_unset();
+      unset($_SESSION['errors_del']);
     }
     echo "<h5>Stock Item Information</h5>";
     echo "<hr>";

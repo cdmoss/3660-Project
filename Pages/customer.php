@@ -48,13 +48,13 @@
       foreach ($_SESSION['errors_add'] as $error) {
         include "../Modules/error.php";
       }
-      session_unset();
+      unset($_SESSION['errors_add']);
     }
     if(!empty($_SESSION['errors_del'])) {
       foreach ($_SESSION['errors_del'] as $error) {
         include "../Modules/error.php";
       }
-      session_unset();
+      unset($_SESSION['errors_del']);
     }
     ?>
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addCustomerModal">

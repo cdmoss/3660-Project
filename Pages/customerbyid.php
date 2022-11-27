@@ -72,16 +72,19 @@ if (count($result->errors) > 0) {
     foreach ($_SESSION['errors_edit'] as $error) {
       include "../Modules/error.php";
     }
+    unset($_SESSION['errors_edit']);
   }
   if(!empty($_SESSION['errors_del'])) {
     foreach ($_SESSION['errors_del'] as $error) {
       include "../Modules/error.php";
     }
+    unset($_SESSION['errors_del']);
   }
   if(!empty($_SESSION['errors_del_inv'])) {
     foreach ($_SESSION['errors_del_inv'] as $error) {
       include "../Modules/error.php";
     }
+    unset($_SESSION['errors_del_inv']);
   }
 
     echo "<div id='customer_information' style='width:25%;float:left;'>";

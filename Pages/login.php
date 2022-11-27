@@ -1,7 +1,4 @@
 <?php
-
-echo $_SESSION['loggedin'];
-echo $_SESSION['alertmessage'];
 include "../Modules/auth.php";
 
 if (isset($_SESSION['loggedin'])) {

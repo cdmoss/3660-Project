@@ -11,5 +11,4 @@ function login($username, $password) {
         $_SESSION['loginerror'] = 'Invalid credentials, try again.';
     }
 }
-
 ?>

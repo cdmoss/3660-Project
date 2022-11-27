@@ -77,25 +77,25 @@ if (count($result->errors) > 0) {
           foreach ($_SESSION['errors_edit'] as $error) {
             include "../Modules/error.php";
           }
-          session_unset();
+          unset($_SESSION['errors_edit']);
         }
         if(!empty($_SESSION['errors_del_lineitem'])) {
           foreach ($_SESSION['errors_del_lineitem'] as $error) {
             include "../Modules/error.php";
           }
-          session_unset();
+          unset($_SESSION['errors_del_lineitem']);
         }
         if(!empty($_SESSION['errors_del_invoice'])) {
           foreach ($_SESSION['errors_del_invoice'] as $error) {
             include "../Modules/error.php";
           }
-          session_unset();
+          unset($_SESSION['errors_del_invoice']);
         }
         if(!empty($_SESSION['errors_add'])) {
           foreach ($_SESSION['errors_add'] as $error) {
             include "../Modules/error.php";
           }
-          session_unset();
+          unset($_SESSION['errors_add']);
         }
 
         echo "<div id='invoice_information' style='width:25%;float:left;'>";
