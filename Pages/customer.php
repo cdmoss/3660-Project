@@ -2,6 +2,8 @@
   include "../data/db.php";
   session_start();
 
+  include "../Modules/authcheck.php";
+
   if (isset($_POST['add_customer'])) {
     $db = Db::getInstance();
     $result = $db->addCustomer($_POST['add_cus_name'], $_POST['add_cus_email'], $_POST['add_cus_phone'], $_POST['add_cus_address']);

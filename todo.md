@@ -10,6 +10,7 @@
 #### Chase
 - [ ] add unique validation for email and phone in validCustomer
 - [ ] fix phone validation
+- [ ] fix duplicate phone number bug
 
 #### Trey
 - [x] Login page

@@ -1,6 +1,7 @@
 <?php 
   include "../data/db.php";
   session_start();
+  include "../Modules/authcheck.php";
 
   if (isset($_POST['del_invoice'])) {
     $db = Db::getInstance();

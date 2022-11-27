@@ -1,4 +1,11 @@
-<?php $page = substr($_SERVER['SCRIPT_NAME'], strrpos($_SERVER['SCRIPT_NAME'], "/") + 1); ?>
+<?php 
+$page = substr($_SERVER['SCRIPT_NAME'], strrpos($_SERVER['SCRIPT_NAME'], "/") + 1); 
+if (isset($_POST['logout'])) {
+    $_SESSION['loggedin'] = NULL;
+    $_SESSION['alertmessage'] = 'You have successfully logged out.';
+    header('location: login.php');
+}
+?>
     <!-- Page Wrapper -->
     <div id="wrapper">
 
@@ -65,12 +72,12 @@
                                 <span class="mr-1 mt-2 d-none d-lg-inline text-gray-600 small"><h6>Welcome, USER_NAME&nbsp;&nbsp;<i class="fa-solid fa-circle-user fa-lg"></i></h6></span>
                             </a>
                             <!-- Dropdown - User Information -->
-                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in">
-                                <a class="dropdown-item" href="#">
+                            <form class="dropdown-menu dropdown-menu-right shadow animated--grow-in" method="POST">
+                                <button class="dropdown-item" type="submit" name="logout">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Logout
-                                </a>
-                            </div>
+                                </button>
+                            </form>
                         </li>
               </ul>
             </nav>

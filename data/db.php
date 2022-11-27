@@ -1,4 +1,4 @@
-<?php include "models/query-result.php" ?>
+<?php include "query-result.php" ?>
 <?php include "../Modules/logging.php" ?>
 
 <?php

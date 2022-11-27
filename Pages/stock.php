@@ -1,6 +1,7 @@
 <?php 
   include "../data/db.php";
   session_start();
+  include "../Modules/authcheck.php";
 
   if (!empty($_POST)) {
     foreach ($_POST as $name => $val) {

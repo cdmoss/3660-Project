@@ -1,9 +1,25 @@
 <?php
 
-include "../data/db.php";
+echo $_SESSION['loggedin'];
+echo $_SESSION['alertmessage'];
+include "../Modules/auth.php";
+
+if (isset($_SESSION['loggedin'])) {
+  header('location: customer.php');
+}
 
 if (isset($_POST['submitLogin'])) {
-  // put login stuff here
+  login($_POST['loginUser'], $_POST['loginPassword']);
+}
+
+if (isset($_SESSION['loginerror'])) {
+  $error = $_SESSION['loginerror'];
+  include "../Modules/error.php";
+  $_SESSION['loginerror'] = NULL;
+}
+
+if (isset($_SESSION['alertmessage'])) {
+  include "../Modules/info.php";
 }
 
 ?>

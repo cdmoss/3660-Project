@@ -2,6 +2,8 @@
   include "../data/db.php";
   session_start();
 
+  include "../Modules/authcheck.php";
+
   if (!empty($_POST)) {
     foreach ($_POST as $name => $val) {
       if (str_contains($name, 'del_invoice_id_')) {
