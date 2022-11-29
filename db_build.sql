@@ -19,7 +19,7 @@ CREATE TABLE stock (
 CREATE TABLE invoices (
 	id bigint unsigned NOT NULL AUTO_INCREMENT primary key,
 	label varchar(250) NOT NULL,
-	created datetime; 
+	created datetime,
 	cleared BOOLEAN NOT NULL,
 	customer_id bigint unsigned,
     CONSTRAINT fk_invoice_customer FOREIGN KEY (customer_id) REFERENCES customers (id) ON DELETE SET NULL
