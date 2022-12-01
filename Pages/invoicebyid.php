@@ -9,6 +9,7 @@
     if (count($result->errors) > 0) {
       $_SESSION['errors_del_invoice'] = $result->errors;
     } else {
+      $_SESSION['alertmessage'] = "You have successfully deleted the invoice.";
       header('location: invoice.php');
     }
   }
@@ -24,7 +25,8 @@
     if (count($result->errors) > 0) {
       $_SESSION['errors_edit'] = $result->errors;
     } else {
-      header('location: invoicebyid.php?invoice_id=' . $_POST['invoice_id'] . '');
+      $_SESSION['alertmessage'] = "You have successfully edited the invoice.";
+      //header('location: invoicebyid.php?invoice_id=' . $_POST['invoice_id'] . '');
     }
   }
 
@@ -33,6 +35,8 @@
     $result = $db->addLineItem($_POST['add_li_sto'], $_GET['invoice_id'], $_POST['add_li_notes'], $_POST['add_li_qty'], $_POST['add_li_price']);
     if (count($result->errors) > 0) {
       $_SESSION['errors_add'] = $result->errors;
+    } else {
+      $_SESSION['alertmessage'] = "You have successfully added a line item.";
     }
   }
 
@@ -44,6 +48,8 @@
         $result = $db->deleteLineItem($lineitem_id[3], $lineitem_id[5]);
         if (count($result->errors) > 0) {
           $_SESSION['errors_del_lineitem'] = $result->errors;
+        } else {
+          $_SESSION['alertmessage'] = "You have successfully deleted the line item.";
         }
       }
     }
@@ -96,6 +102,10 @@ if (count($result->errors) > 0) {
             include "../Modules/error.php";
           }
           unset($_SESSION['errors_add']);
+        }
+        if(!empty($_SESSION['alertmessage'])) {
+          include "../Modules/info.php";
+          unset($_SESSION['alertmessage']);
         }
 
         echo "<div id='invoice_information' style='width:25%;float:left;'>";

@@ -12,7 +12,8 @@
         if (count($result->errors) > 0) {
           $_SESSION['errors_del'] = $result->errors;
         } else {
-          header('location: stock.php');
+          $_SESSION['alertmessage'] = "You have successfully deleted a stock item.";
+          //header('location: stock.php');
         }
       }
     }
@@ -24,7 +25,8 @@
       if (count($result->errors) > 0) {
         $_SESSION['errors_add'] = $result->errors;
       } else {
-        header('location: stock.php');
+        $_SESSION['alertmessage'] = "You have successfully added a stock item.";
+        //header('location: stock.php');
       }
   }
 ?>
@@ -55,6 +57,10 @@
           include "../Modules/error.php";
         }
         unset($_SESSION['errors_add']);
+      }
+      if(!empty($_SESSION['alertmessage'])) {
+        include "../Modules/info.php";
+        unset($_SESSION['alertmessage']);
       }
     ?>
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addStockModal">

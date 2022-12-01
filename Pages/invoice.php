@@ -12,7 +12,8 @@
         if (count($result->errors) > 0) {
           $_SESSION['errors_del'] = $result->errors;
         } else {
-          header('location: invoice.php');
+          $_SESSION['alertmessage'] = "You have successfully deleted the invoice.";
+          //header('location: invoice.php');
         }
       }
     }
@@ -29,7 +30,8 @@
     if (count($result->errors) > 0) {
       $_SESSION['errors_add'] = $result->errors;
     } else {
-      header('location: invoice.php');
+      $_SESSION['alertmessage'] = "You have successfully added an invoice.";
+      //header('location: invoice.php');
     } 
   }
 ?>

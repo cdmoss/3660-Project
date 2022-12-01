@@ -9,6 +9,7 @@
     if (count($result->errors) > 0) {
       $_SESSION['errors_del'] = $result->errors;
     } else {
+      $_SESSION['alertmessage'] = "You have successfully deleted a stock item.";
       header('location: stock.php');
     }
   }
@@ -20,7 +21,8 @@
     if (count($result->errors) > 0) {
       $_SESSION['errors_edit'] = $result->errors;
     } else {
-      header('location: stockbyid.php?stock_id=' . $_POST['stock_id'] . '&stock_name=' . $_POST['stock_name'] . '');
+      $_SESSION['alertmessage'] = "You have successfully edited a stock item.";
+      //header('location: stockbyid.php?stock_id=' . $_POST['stock_id'] . '&stock_name=' . $_POST['stock_name'] . '');
     }
   }
 ?>
@@ -59,6 +61,10 @@ if (count($result->errors) > 0) {
         include "../Modules/error.php";
       }
       unset($_SESSION['errors_del']);
+    }
+    if(!empty($_SESSION['alertmessage'])) {
+      include "../Modules/info.php";
+      unset($_SESSION['alertmessage']);
     }
     echo "<h5>Stock Item Information</h5>";
     echo "<hr>";

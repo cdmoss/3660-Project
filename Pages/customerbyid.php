@@ -13,7 +13,8 @@
         if (count($result->errors) > 0) {
           $_SESSION['errors_del_inv'] = $result->errors;
         } else {
-          header('location: customerbyid.php?cus_id=' . $_SESSION['cus_id'] . '&cus_name=' . $_SESSION['cus_name'] . '');
+          $_SESSION['alertmessage'] = "You have successfully deleted the invoice";
+          //header('location: customerbyid.php?cus_id=' . $_SESSION['cus_id'] . '&cus_name=' . $_SESSION['cus_name'] . '');
         }
       }
     }
@@ -25,6 +26,7 @@
     if (count($result->errors) > 0) {
       $_SESSION['errors_del'] = $result->errors;
     } else {
+      $_SESSION['alertmessage'] = "You have successfully deleted the customer";
       header('location: customer.php');
     }
   }
@@ -36,7 +38,8 @@
     if (count($result->errors) > 0) {
       $_SESSION['errors_edit'] = $result->errors;
     } else {
-      header('location: customerbyid.php?cus_id=' . $_POST['cus_id'] . '&cus_name=' . $_POST['cus_name'] . '');
+      $_SESSION['alertmessage'] = "You have successfully edited the customer";
+      //header('location: customerbyid.php?cus_id=' . $_POST['cus_id'] . '&cus_name=' . $_POST['cus_name'] . '');
     }
   }
 ?>
@@ -89,7 +92,7 @@ if (count($result->errors) > 0) {
   if(!empty($_SESSION['alertmessage'])) {
       include "../Modules/info.php";
       unset($_SESSION['alertmessage']);
-    }
+  }
 
     echo "<div id='customer_information' style='width:25%;float:left;'>";
       echo "<form method='POST'>";
