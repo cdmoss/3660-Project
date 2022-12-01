@@ -114,7 +114,6 @@ if (count($result->errors) > 0) {
             echo "<form method='POST'>";
             echo "<div class='form-group invoiceById'><label for='invoice_id'>Invoice ID</label><input type='text' class='form-control' name='invoice_id' value='" . $invoice['id'] . "' readonly /></div>";
             echo "<div class='form-group invoiceById'><label for='invoice_lbl'>Label</label><input type='text' class='form-control' name='invoice_lbl' value='" . $invoice['label'] . "' /></div>";
-            echo "<div class='form-group invoiceById'><label for='invoice_created'>Created</label><input type='text' class='form-control' name='invoice_created' value='" . $invoice['created'] . "' readonly /></div>";
             echo "<div class='form-group invoiceById'><label for='name='invoice_cus_id'>Select Customer for Invoice</label>";
             echo "<select class='form-control invoiceById' style='width:100%;margin-left:0%;' name='invoice_cus_id' aria-label='Default select example'>";
             $db = Db::getInstance();

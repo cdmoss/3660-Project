@@ -77,7 +77,6 @@
           <tr>
             <th scope='col'>ID</th>
             <th scope='col'>Label</th>
-            <th scope='col'>Created</th>
             <th scope='col'>Cleared</th>
             <th scope='col'>Actions</th>
           </tr>
@@ -96,7 +95,6 @@
               echo "<tr>";
               echo "<th scope='row'>" . $invoices['id'] . "</th>";
               echo "<td>" . $invoices['label'] . "</td>";
-              echo "<td>" . $invoices['created'] . "</td>";
               if ($invoices['cleared'] == 1) {
                 echo "<td><i class='fa-solid fa-check'></i></td>";
               } elseif ($invoices['cleared'] == 0) {
