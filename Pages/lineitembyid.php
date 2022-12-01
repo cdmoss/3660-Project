@@ -9,6 +9,7 @@
     if (count($result->errors) > 0) {
       $_SESSION['errors_del'] = $result->errors;
     } else {
+      $_SESSION['alertmessage'] = "You have successfully deleted the line item.";
       header('location: invoicebyid.php?invoice_id=' . $_GET['invoice_id'] . '');
     }
   }
@@ -19,7 +20,8 @@
     if (count($result->errors) > 0) {
       $_SESSION['errors_edit'] = $result->errors;
     } else {
-      header('location: lineitembyid.php?stock_id=' . $_GET['stock_id'] . '&invoice_id=' . $_GET['invoice_id']);
+      $_SESSION['alertmessage'] = "You have successfully edited the line item.";
+      //header('location: lineitembyid.php?stock_id=' . $_GET['stock_id'] . '&invoice_id=' . $_GET['invoice_id']);
     }
   }
 ?>
@@ -59,6 +61,10 @@ if (count($result->errors) > 0) {
       }
       unset($_SESSION['errors_edit']);
     }
+    if(!empty($_SESSION['alertmessage'])) {
+      include "../Modules/info.php";
+      unset($_SESSION['alertmessage']);
+    }
     echo "<h5>Line Item Information</h5>";
     echo "<hr>";
     echo "<form method='POST'>";
@@ -70,7 +76,6 @@ if (count($result->errors) > 0) {
     echo "<div class='btn-group stockById' role='group'>";
     echo "<input type='submit' name='edit_lineitem' class='btn btn-outline-dark' value='Save Changes' />";
     echo "<input type='submit' name='del_lineitem' class='btn btn-outline-danger' value='Delete' />";
-    echo "<a href='invoicebyid.php?invoice_id=" . $_GET['invoice_id'] . "' class='btn btn-outline-primary'>Go Back</a>";
     echo "</div>";
     echo "</form>";
     echo "</div>";

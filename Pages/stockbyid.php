@@ -9,6 +9,7 @@
     if (count($result->errors) > 0) {
       $_SESSION['errors_del'] = $result->errors;
     } else {
+      $_SESSION['alertmessage'] = "You have successfully deleted the stock item.";
       header('location: stock.php');
     }
   }
@@ -20,7 +21,8 @@
     if (count($result->errors) > 0) {
       $_SESSION['errors_edit'] = $result->errors;
     } else {
-      header('location: stockbyid.php?stock_id=' . $_POST['stock_id'] . '&stock_name=' . $_POST['stock_name'] . '');
+      $_SESSION['alertmessage'] = "You have successfully edited the stock item.";
+      //header('location: stockbyid.php?stock_id=' . $_POST['stock_id'] . '&stock_name=' . $_POST['stock_name'] . '');
     }
   }
 ?>
@@ -60,6 +62,10 @@ if (count($result->errors) > 0) {
       }
       unset($_SESSION['errors_del']);
     }
+    if(!empty($_SESSION['alertmessage'])) {
+      include "../Modules/info.php";
+      unset($_SESSION['alertmessage']);
+    }
     echo "<h5>Stock Item Information</h5>";
     echo "<hr>";
     echo "<form method='POST'>";
@@ -70,7 +76,6 @@ if (count($result->errors) > 0) {
     echo "<div class='btn-group stockById' role='group'>";
     echo "<input type='submit' name='edit_stock' class='btn btn-outline-dark' value='Save Changes' />";
     echo "<input type='submit' name='del_stock' class='btn btn-outline-danger' value='Delete' />";
-    echo "<a href='stock.php' class='btn btn-outline-primary'>Go Back</a>";
     echo "</div>";
     echo "</form>";
     echo "</div>";

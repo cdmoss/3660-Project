@@ -9,6 +9,7 @@
     if (count($result->errors) > 0) {
       $_SESSION['errors_del_invoice'] = $result->errors;
     } else {
+      $_SESSION['alertmessage'] = "You have successfully deleted the invoice.";
       header('location: invoice.php');
     }
   }
@@ -24,7 +25,8 @@
     if (count($result->errors) > 0) {
       $_SESSION['errors_edit'] = $result->errors;
     } else {
-      header('location: invoicebyid.php?invoice_id=' . $_POST['invoice_id'] . '');
+      $_SESSION['alertmessage'] = "You have successfully edited the invoice.";
+      //header('location: invoicebyid.php?invoice_id=' . $_POST['invoice_id'] . '');
     }
   }
 
@@ -33,6 +35,8 @@
     $result = $db->addLineItem($_POST['add_li_sto'], $_GET['invoice_id'], $_POST['add_li_notes'], $_POST['add_li_qty'], $_POST['add_li_price']);
     if (count($result->errors) > 0) {
       $_SESSION['errors_add'] = $result->errors;
+    } else {
+      $_SESSION['alertmessage'] = "You have successfully added a line item.";
     }
   }
 
@@ -44,6 +48,8 @@
         $result = $db->deleteLineItem($lineitem_id[3], $lineitem_id[5]);
         if (count($result->errors) > 0) {
           $_SESSION['errors_del_lineitem'] = $result->errors;
+        } else {
+          $_SESSION['alertmessage'] = "You have successfully deleted the line item.";
         }
       }
     }
@@ -97,6 +103,10 @@ if (count($result->errors) > 0) {
           }
           unset($_SESSION['errors_add']);
         }
+        if(!empty($_SESSION['alertmessage'])) {
+          include "../Modules/info.php";
+          unset($_SESSION['alertmessage']);
+        }
 
         echo "<div id='invoice_information' style='width:25%;float:left;'>";
             echo "<h5 style='margin-bottom: 62px;'>Invoice Information</h5>";
@@ -104,7 +114,6 @@ if (count($result->errors) > 0) {
             echo "<form method='POST'>";
             echo "<div class='form-group invoiceById'><label for='invoice_id'>Invoice ID</label><input type='text' class='form-control' name='invoice_id' value='" . $invoice['id'] . "' readonly /></div>";
             echo "<div class='form-group invoiceById'><label for='invoice_lbl'>Label</label><input type='text' class='form-control' name='invoice_lbl' value='" . $invoice['label'] . "' /></div>";
-            echo "<div class='form-group invoiceById'><label for='invoice_created'>Created</label><input type='text' class='form-control' name='invoice_created' value='" . $invoice['created'] . "' readonly /></div>";
             echo "<div class='form-group invoiceById'><label for='name='invoice_cus_id'>Select Customer for Invoice</label>";
             echo "<select class='form-control invoiceById' style='width:100%;margin-left:0%;' name='invoice_cus_id' aria-label='Default select example'>";
             $db = Db::getInstance();
@@ -141,7 +150,6 @@ if (count($result->errors) > 0) {
             echo "<div class='btn-group invoiceById' role='group'>";
             echo "<input type='submit' name='edit_invoice' class='btn btn-outline-dark' value='Save Changes' />";
             echo "<input type='submit' name='del_invoice' class='btn btn-outline-danger' value='Delete' />";
-            echo "<a href='invoice.php' class='btn btn-outline-primary'>Go Back</a>";
             echo "</div>";
             echo "</form>";
         echo "</div>";

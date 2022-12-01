@@ -12,7 +12,8 @@
         if (count($result->errors) > 0) {
           $_SESSION['errors_del'] = $result->errors;
         } else {
-          header('location: invoice.php');
+          $_SESSION['alertmessage'] = "You have successfully deleted the invoice.";
+          //header('location: invoice.php');
         }
       }
     }
@@ -29,7 +30,8 @@
     if (count($result->errors) > 0) {
       $_SESSION['errors_add'] = $result->errors;
     } else {
-      header('location: invoice.php');
+      $_SESSION['alertmessage'] = "You have successfully added an invoice.";
+      //header('location: invoice.php');
     } 
   }
 ?>
@@ -75,7 +77,6 @@
           <tr>
             <th scope='col'>ID</th>
             <th scope='col'>Label</th>
-            <th scope='col'>Created</th>
             <th scope='col'>Cleared</th>
             <th scope='col'>Actions</th>
           </tr>
@@ -94,7 +95,6 @@
               echo "<tr>";
               echo "<th scope='row'>" . $invoices['id'] . "</th>";
               echo "<td>" . $invoices['label'] . "</td>";
-              echo "<td>" . $invoices['created'] . "</td>";
               if ($invoices['cleared'] == 1) {
                 echo "<td><i class='fa-solid fa-check'></i></td>";
               } elseif ($invoices['cleared'] == 0) {
