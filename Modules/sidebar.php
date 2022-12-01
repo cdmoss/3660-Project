@@ -4,6 +4,7 @@ if (isset($_POST['logout'])) {
     $_SESSION['loggedin'] = NULL;
     $_SESSION['alertmessage'] = 'You have successfully logged out.';
     header('location: login.php');
+    exit;
 }
 ?>
     <!-- Page Wrapper -->
