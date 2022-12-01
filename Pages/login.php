@@ -1,7 +1,5 @@
 <?php
 
-session_start();
-
 include "../Modules/auth.php";
 
 if (isset($_SESSION['loggedin'])) {
