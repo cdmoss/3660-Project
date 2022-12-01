@@ -277,6 +277,8 @@
 
         $this->validateStock($result, $name, $current_price, $qty);
 
+        //alert($current_price);
+
         if (count($result->errors) == 0) {
             try {
                 $sql = "insert into stock (name, current_price, qty) values (:name, :current_price, :qty)";
