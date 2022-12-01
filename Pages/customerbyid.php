@@ -106,7 +106,6 @@ if (count($result->errors) > 0) {
         echo "<div class='btn-group cusById' role='group'>";
         echo "<input type='submit' name='edit_customer' class='btn btn-outline-dark' value='Save Changes' />";
         echo "<input type='submit' name='del_customer' class='btn btn-outline-danger' value='Delete' />";
-        echo "<a href='customer.php' class='btn btn-outline-primary'>Go Back</a>";
       echo "</form>";
     echo "</div>";
     echo "</div>";

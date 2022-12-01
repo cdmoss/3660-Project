@@ -76,7 +76,6 @@ if (count($result->errors) > 0) {
     echo "<div class='btn-group stockById' role='group'>";
     echo "<input type='submit' name='edit_lineitem' class='btn btn-outline-dark' value='Save Changes' />";
     echo "<input type='submit' name='del_lineitem' class='btn btn-outline-danger' value='Delete' />";
-    echo "<a href='invoicebyid.php?invoice_id=" . $_GET['invoice_id'] . "' class='btn btn-outline-primary'>Go Back</a>";
     echo "</div>";
     echo "</form>";
     echo "</div>";

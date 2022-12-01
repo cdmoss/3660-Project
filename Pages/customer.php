@@ -121,9 +121,9 @@
     echo "<div class='modal-body'>";
 
     echo "<form method='POST'>";
-    echo "<div class='form-group add-customer-modal'><label for='add_cus_name'>Name</label><input type='text' class='form-control' name='add_cus_name' /></div>";
-    echo "<div class='form-group add-customer-modal'><label for='add_cus_phone'>Phone Number</label><input type='text' class='form-control' name='add_cus_phone' /></div>";
-    echo "<div class='form-group add-customer-modal'><label for='add_cus_email'>Email Address</label><input type='email' class='form-control' name='add_cus_email' /></div>";
+    echo "<div class='form-group add-customer-modal'><label for='add_cus_name'>Name</label><input type='text' class='form-control' name='add_cus_name' required /></div>";
+    echo "<div class='form-group add-customer-modal'><label for='add_cus_phone'>Phone Number</label><input type='text' class='form-control' name='add_cus_phone' required /></div>";
+    echo "<div class='form-group add-customer-modal'><label for='add_cus_email'>Email Address</label><input type='email' class='form-control' name='add_cus_email' required /></div>";
     echo "<div class='form-group add-customer-modal'><label for='add_cus_address'>Address</label><input type='text' class='form-control' name='add_cus_address' /></div>";
     echo "</div>";
     echo "<div class='modal-footer'>";

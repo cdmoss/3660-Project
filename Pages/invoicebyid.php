@@ -151,7 +151,6 @@ if (count($result->errors) > 0) {
             echo "<div class='btn-group invoiceById' role='group'>";
             echo "<input type='submit' name='edit_invoice' class='btn btn-outline-dark' value='Save Changes' />";
             echo "<input type='submit' name='del_invoice' class='btn btn-outline-danger' value='Delete' />";
-            echo "<a href='invoice.php' class='btn btn-outline-primary'>Go Back</a>";
             echo "</div>";
             echo "</form>";
         echo "</div>";

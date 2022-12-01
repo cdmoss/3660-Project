@@ -12,7 +12,7 @@
         if (count($result->errors) > 0) {
           $_SESSION['errors_del'] = $result->errors;
         } else {
-          $_SESSION['alertmessage'] = "You have successfully deleted a stock item.";
+          $_SESSION['alertmessage'] = "You have successfully deleted the stock item.";
           //header('location: stock.php');
         }
       }
