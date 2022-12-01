@@ -9,13 +9,13 @@ if (isset($_POST['submitLogin'])) {
   login($_POST['loginUser'], $_POST['loginPassword']);
 }
 
-if (isset($_SESSION['loginerror'])) {
+if (!empty($_SESSION['loginerror'])) {
   $error = $_SESSION['loginerror'];
   include "../Modules/error.php";
   $_SESSION['loginerror'] = NULL;
 }
 
-if (isset($_SESSION['alertmessage'])) {
+if (!empty($_SESSION['alertmessage'])) {
   include "../Modules/info.php";
 }
 

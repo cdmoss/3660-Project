@@ -86,6 +86,10 @@ if (count($result->errors) > 0) {
     }
     unset($_SESSION['errors_del_inv']);
   }
+  if(!empty($_SESSION['alertmessage'])) {
+      include "../Modules/info.php";
+      unset($_SESSION['alertmessage']);
+    }
 
     echo "<div id='customer_information' style='width:25%;float:left;'>";
       echo "<form method='POST'>";

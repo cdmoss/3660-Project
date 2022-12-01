@@ -10,7 +10,7 @@
     if (count($result->errors) > 0) {
       $_SESSION['errors_add'] = $result->errors;
     } else {
-      header('location: customer.php');
+      $_SESSION['alertmessage'] = "You have successfully added a customer.";
     }
   }
 
@@ -23,7 +23,7 @@
         if (count($result->errors) > 0) {
           $_SESSION['errors_del'] = $result->errors;
         } else {
-          header('location: customer.php');
+          $_SESSION['alertmessage'] = "You have successfully deleted a customer.";
         }
       }
     }
@@ -43,7 +43,7 @@
   <?php include "../Modules/sidebar.php" ?>
 
   <div class="container-fluid">
-    <?php // Display Errors
+    <?php // Display alerts
     if(!empty($_SESSION['errors_add'])) {
       foreach ($_SESSION['errors_add'] as $error) {
         include "../Modules/error.php";
@@ -55,6 +55,10 @@
         include "../Modules/error.php";
       }
       unset($_SESSION['errors_del']);
+    }
+    if(!empty($_SESSION['alertmessage'])) {
+      include "../Modules/info.php";
+      unset($_SESSION['alertmessage']);
     }
     ?>
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addCustomerModal">

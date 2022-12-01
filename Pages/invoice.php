@@ -60,6 +60,10 @@
         }
         unset($_SESSION['errors_add']);
       }
+      if(!empty($_SESSION['alertmessage'])) {
+        include "../Modules/info.php";
+        unset($_SESSION['alertmessage']);
+      }
     ?>
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addInvoiceModal">
       <i class='fa-solid fa-plus'></i><span class='ml-1'>Add an Invoice</span>
